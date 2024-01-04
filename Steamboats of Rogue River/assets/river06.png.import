@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/river.png-ac509548476d59454fe944d067f25673.stex"
+path="res://.import/river06.png-dc826f89c81e6fd5b81fe3b313a5ce0e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/river.png"
-dest_files=[ "res://.import/river.png-ac509548476d59454fe944d067f25673.stex" ]
+source_file="res://assets/river06.png"
+dest_files=[ "res://.import/river06.png-dc826f89c81e6fd5b81fe3b313a5ce0e.stex" ]
 
 [params]
 

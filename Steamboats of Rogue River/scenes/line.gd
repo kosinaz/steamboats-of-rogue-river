@@ -1,4 +1,4 @@
-extends Path2D
+extends Line2D
 
 
 # Declare member variables here. Examples:
@@ -8,9 +8,9 @@ extends Path2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(curve)
+	$Path2D.curve.get_baked_nodes
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	$PathFollow2D.offset += 250 * delta
+#func _process(delta):
+#	pass
