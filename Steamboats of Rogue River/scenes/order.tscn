@@ -1,6 +1,0 @@
-[gd_scene format=2]
-
-[node name="Order" type="VBoxContainer"]
-
-[node name="Label" type="Label" parent="."]
-margin_bottom = 14.0
