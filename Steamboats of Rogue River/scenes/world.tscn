@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/cap1.png" type="Texture" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
+[ext_resource path="res://assets/button_pressed.png" type="Texture" id=16]
+[ext_resource path="res://assets/button.png" type="Texture" id=17]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.709804, 0.690196, 0.866667, 1 )
@@ -302,3 +304,12 @@ margin_top = -16.0
 margin_right = 32.0
 margin_bottom = 16.0
 texture = ExtResource( 13 )
+
+[node name="TextureButton" type="TextureButton" parent="RiverPanel"]
+margin_left = 448.0
+margin_top = -32.0
+margin_right = 576.0
+margin_bottom = 96.0
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 16 )
+texture_disabled = ExtResource( 16 )
