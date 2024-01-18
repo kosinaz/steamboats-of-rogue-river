@@ -33,13 +33,14 @@ func _set_balance(value):
 	$"%BalanceLabel".text = "$" + str(_balance)
 
 func _add_item(name: String, value: int) -> void:
-	var item: Node = load("res://scenes/" + name + ".tscn").instance()
-	_river.add_child(item)
-	item.position.x = abs(value) * 64 + 16
+	if name != "wood":
+		var item: Node = load("res://scenes/" + name + ".tscn").instance()
+		_river.add_child(item)
+		item.position.x = abs(value) * 64 + 16
 	var itembig: Node = load("res://scenes/" + name + "big.tscn").instance()
 	_dock_container.add_child(itembig)
 	# warning-ignore:return_value_discarded
-	itembig.connect("pressed", self, "_on_item_pressed", [item, value])
+	itembig.connect("pressed", self, "_on_item_pressed", [itembig, value])
 	
 func _on_item_pressed(item: Node, value: int) -> void:
 	if _dock_container.is_a_parent_of(item):
