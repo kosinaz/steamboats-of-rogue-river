@@ -211,64 +211,67 @@ margin_bottom = 1024.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="River" type="Panel" parent="RiverPanel"]
-unique_name_in_owner = true
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 544.0
 margin_bottom = 48.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="Mile1" type="TextureRect" parent="RiverPanel/River"]
-margin_top = -8.0
-margin_right = 32.0
-margin_bottom = 24.0
+[node name="RiverMiles" type="Node2D" parent="RiverPanel/River"]
+unique_name_in_owner = true
+
+[node name="Mile1" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 64, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile2" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 64.0
-margin_top = -8.0
-margin_right = 96.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile1"]
+
+[node name="Mile2" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 128, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile3" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 128.0
-margin_top = -8.0
-margin_right = 160.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
+
+[node name="Mile3" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 192, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile4" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 192.0
-margin_top = -8.0
-margin_right = 224.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
+
+[node name="Mile4" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 256, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile5" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 256.0
-margin_top = -8.0
-margin_right = 288.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
+
+[node name="Mile5" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 320, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile6" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 320.0
-margin_top = -8.0
-margin_right = 352.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
+
+[node name="Mile6" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 384, 0 )
 texture = ExtResource( 14 )
 
-[node name="Mile7" type="TextureRect" parent="RiverPanel/River"]
-margin_left = 384.0
-margin_top = -8.0
-margin_right = 416.0
-margin_bottom = 24.0
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
+
+[node name="Mile7" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+position = Vector2( 448, 0 )
 texture = ExtResource( 14 )
 
-[node name="Miniboat" type="TextureRect" parent="RiverPanel/River"]
+[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile7"]
+
+[node name="Boat" type="Node2D" parent="RiverPanel/River"]
+
+[node name="Miniboat" type="TextureRect" parent="RiverPanel/River/Boat"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0
 margin_top = -16.0
-margin_right = 32.0
+margin_right = 16.0
 margin_bottom = 16.0
 texture = ExtResource( 13 )
 

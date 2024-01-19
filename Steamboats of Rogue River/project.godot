@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Cargo",
+"language": "GDScript",
+"path": "res://scenes/cargo.gd"
+}, {
+"base": "Node",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scenes/item.gd"
+} ]
+_global_script_class_icons={
+"Cargo": "",
+"Item": ""
+}
+
 [application]
 
 config/name="Steamboats of Rogue River"
