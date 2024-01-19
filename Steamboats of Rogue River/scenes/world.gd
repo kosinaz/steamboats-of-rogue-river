@@ -17,8 +17,6 @@ func _ready() -> void:
 	# warning-ignore:return_value_discarded
 	_dock_items.connect("updated", self, "_update_container", [_dock_container])
 	# warning-ignore:return_value_discarded
-	_dock_items.connect("updated", self, "_update_river_miles")
-	# warning-ignore:return_value_discarded
 	_boat_items.connect("updated", self, "_update_container", [_boat_container])
 	var item_button_packed_scene: PackedScene = load("res://scenes/item_button.tscn")
 	for i in range(_dock_items.get_size()):
@@ -39,6 +37,7 @@ func _ready() -> void:
 		_dock_items.add_new_item("crate", 1)
 	for _i in range(_rng.randi_range(1, 3)):
 		_dock_items.add_new_item("barrel", 2)
+	_update_river_miles()
 		
 func _process(_delta) -> void:
 	if not _moving: return
@@ -63,7 +62,10 @@ func _update_container(container: GridContainer) -> void:
 			container.get_children()[i].texture_normal = load("res://assets/no_item.png")
 
 func _update_river_miles() -> void:
-	for item in _dock_items.get_items():
+	for mile in _river_miles.get_children():
+		mile.get_node("Item").texture = null
+	var items = _boat_items if _moving else _dock_items
+	for item in items.get_items():
 		if item.item_name == "wood": continue
 		# warning-ignore:narrowing_conversion
 		var mile = _river_miles.get_child(abs(item.value) - 1)
@@ -96,3 +98,4 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 func _on_go_button_pressed():
 	_go_button.disabled = true
 	_moving = true
+	_update_river_miles()
