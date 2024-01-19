@@ -1,9 +1,9 @@
 extends Node2D
 
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
-var _balance: int = 10 setget _set_balance
-var _dock_items: Cargo = Cargo.new()
-var _boat_items: Cargo = Cargo.new()
+var _balance: int = 10
+var _dock_items: Cargo = Cargo.new(15)
+var _boat_items: Cargo = Cargo.new(6)
 var _moving: bool = false
 onready var _dock: TileMap = $"%Dock"
 onready var _dock_container: GridContainer = $"%DockContainer"
@@ -15,21 +15,22 @@ onready var _go_button: TextureButton = $"%GoButton"
 func _ready() -> void:
 	_rng.randomize()
 	# warning-ignore:return_value_discarded
-	_dock_items.connect("added", self, "_update_container", [_dock_container])
+	_dock_items.connect("updated", self, "_update_container", [_dock_container])
 	# warning-ignore:return_value_discarded
-	_dock_items.connect("added", self, "_update_river_miles")
+	_dock_items.connect("updated", self, "_update_river_miles")
 	# warning-ignore:return_value_discarded
-	_boat_items.connect("added", self, "_update_container", [_boat_container])
-	for i in range(15):
-		var button: TextureButton = load("res://scenes/item_button.tscn").instance()
-		_dock_container.add_child(button)
+	_boat_items.connect("updated", self, "_update_container", [_boat_container])
+	var item_button_packed_scene: PackedScene = load("res://scenes/item_button.tscn")
+	for i in range(_dock_items.get_size()):
+		var item_button: TextureButton = item_button_packed_scene.instance()
+		_dock_container.add_child(item_button)
 		# warning-ignore:return_value_discarded
-		button.connect("pressed", self, "_on_item_pressed", [_dock_container, i])
-	for i in range(6):
-		var button: TextureButton = load("res://scenes/item_button.tscn").instance()
-		_boat_container.add_child(button)
+		item_button.connect("pressed", self, "_on_item_button_pressed", [_dock_container, i])
+	for i in range(_boat_items.get_size()):
+		var item_button: TextureButton = item_button_packed_scene.instance()
+		_boat_container.add_child(item_button)
 		# warning-ignore:return_value_discarded
-		button.connect("pressed", self, "_on_item_pressed", [_boat_container, i])
+		item_button.connect("pressed", self, "_on_item_button_pressed", [_boat_container, i])
 	_dock_items.add_new_item("cap1", -5)
 	_dock_items.add_new_item("cap2", -6)
 	for _i in range(_rng.randi_range(2, 4)):
@@ -71,15 +72,24 @@ func _arrive(item: Sprite) -> void:
 	_moving = false
 	print(item)
 
-func _set_balance(value):
-	_balance = value
+func _update_balance(value):
+	_balance += value
 	$"%BalanceLabel".text = "$" + str(_balance)
 	
-func _on_item_pressed(container: GridContainer, idx: int) -> void:
+func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 	if _dock_container == container:
-		_dock_items.move(idx, _boat_items)
+		var item = _dock_items.get_item(i)
+		if item == null: return
+		if item.value < 0:
+			if -item.value > _balance: return
+			_update_balance(item.value)
+		_dock_items.move(i, _boat_items)
 	else:
-		_boat_items.move(idx, _dock_items)
+		var item = _boat_items.get_item(i)
+		if item == null: return
+		if item.value < 0:
+			_update_balance(-item.value)
+		_boat_items.move(i, _dock_items)
 
 func _on_go_button_pressed():
 	_go_button.disabled = true

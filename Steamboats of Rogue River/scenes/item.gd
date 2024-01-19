@@ -10,8 +10,7 @@ var value: int = 0
 ## The current distance from the dock where the item will be removed.
 var distance: int = 0
 
-func set_attributes(new_item_name, new_value) -> Item:
+func _init(new_item_name, new_value) -> void:
 	item_name = new_item_name
 	value = new_value
 	distance = new_value
-	return self
