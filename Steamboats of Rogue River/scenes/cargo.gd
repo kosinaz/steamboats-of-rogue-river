@@ -34,3 +34,6 @@ func get_items() -> Array:
 	
 func get_size() -> int:
 	return _size
+
+func is_full() -> bool:
+	return _size == _items.size()

@@ -64,6 +64,7 @@ func _update_container(container: GridContainer) -> void:
 
 func _update_river_miles() -> void:
 	for item in _dock_items.get_items():
+		if item.item_name == "wood": continue
 		# warning-ignore:narrowing_conversion
 		var mile = _river_miles.get_child(abs(item.value) - 1)
 		mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
@@ -80,6 +81,7 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 	if _dock_container == container:
 		var item = _dock_items.get_item(i)
 		if item == null: return
+		if _boat_items.is_full(): return
 		if item.value < 0:
 			if -item.value > _balance: return
 			_update_balance(item.value)
