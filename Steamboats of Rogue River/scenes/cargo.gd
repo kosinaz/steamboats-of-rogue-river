@@ -37,3 +37,12 @@ func get_size() -> int:
 
 func is_full() -> bool:
 	return _size == _items.size()
+
+func has_type_of_item(item_name: String) -> bool:
+	for item in _items:
+		if item.item_name == item_name:
+			return true
+	return false
+
+func has_any_item() -> bool:
+	return get_item(0) != null
