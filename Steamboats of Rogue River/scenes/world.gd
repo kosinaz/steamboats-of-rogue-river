@@ -57,7 +57,7 @@ func _init_container(cargo: Cargo, container: GridContainer) -> void:
 		item_button.connect("pressed", self, "_on_item_button_pressed", [container, i])
 
 func _update_container(container: GridContainer) -> void:
-	var items = null
+	var items: Cargo = null
 	match container:
 		_dock_cap_container: 
 			items = _dock_caps
@@ -67,7 +67,7 @@ func _update_container(container: GridContainer) -> void:
 			items = _boat_caps
 		_boat_item_container: 
 			items = _boat_items
-	var items_buttons = container.get_children()
+	var items_buttons: Array = container.get_children()
 	for i in range(items_buttons.size()):
 		if items.get_item(i):
 			items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).item_name + "big.png")
@@ -87,28 +87,28 @@ func _update_container(container: GridContainer) -> void:
 func _update_river_miles() -> void:
 	for mile in _river_miles.get_children():
 		mile.get_node("Item").texture = null
-	var items = _dock_items.get_items() + _dock_caps.get_items()
+	var items: Array = _dock_items.get_items() + _dock_caps.get_items()
 	if _moving:
 		items = _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
 		if item.item_name == "wood": continue
 		# warning-ignore:narrowing_conversion
-		var mile = _river_miles.get_child(abs(item.value) - 1)
+		var mile: Sprite = _river_miles.get_child(abs(item.value) - 1)
 		mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
 
 func _arrive(item: Sprite) -> void:
 	_moving = false
 	print(item)
 
-func _update_balance(value: int):
+func _update_balance(value: int) -> void:
 	_balance += value
 	$"%BalanceLabel".text = "$" + str(_balance)
 	
 func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 	if _moving: return
-	var items = null
-	var target = null
-	var multiplier = 1
+	var items: Cargo = null
+	var target: Cargo = null
+	var multiplier: int = 1
 	match container:
 		_dock_cap_container: 
 			items = _dock_caps
@@ -124,7 +124,7 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 		_boat_item_container: 
 			items = _boat_items
 			target = _dock_items
-	var item = items.get_item(i)
+	var item: Item = items.get_item(i)
 	if item == null: return
 	if target.is_full(): return
 	if item.value < 0:
