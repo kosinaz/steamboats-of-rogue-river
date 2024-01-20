@@ -67,11 +67,21 @@ func _update_container(container: GridContainer) -> void:
 			items = _boat_caps
 		_boat_item_container: 
 			items = _boat_items
-	for i in range(container.get_children().size()):
+	var items_buttons = container.get_children()
+	for i in range(items_buttons.size()):
 		if items.get_item(i):
-			container.get_children()[i].texture_normal = load("res://assets/" + items.get_item(i).item_name + "big.png")
+			items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).item_name + "big.png")
+			if not _moving:
+				items_buttons[i].get_node("%ValuePanel").show()
+				items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).value)
+			else:
+				items_buttons[i].get_node("%ValuePanel").hide()
 		else:
-			container.get_children()[i].texture_normal = load("res://assets/no_item.png")
+			if not _moving:
+				items_buttons[i].texture_normal = load("res://assets/no_item.png")
+			else:
+				items_buttons[i].texture_normal = null
+			items_buttons[i].get_node("%ValuePanel").hide()
 	_go_button.disabled = not _is_ready_to_go()
 
 func _update_river_miles() -> void:
@@ -126,6 +136,10 @@ func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
 	_moving = true
 	_update_river_miles()
+	_update_container(_dock_cap_container)
+	_update_container(_dock_item_container)
+	_update_container(_boat_cap_container)
+	_update_container(_boat_item_container)
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")
