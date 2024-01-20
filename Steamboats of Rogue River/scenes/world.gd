@@ -42,6 +42,7 @@ func _process(_delta) -> void:
 		if mile.position.x < 0:
 			for mile_to_reset in _river_miles.get_children():
 				mile_to_reset.position.x += 64
+			_decrease_distance()
 			break
 		else:
 			mile.position.x -= 0.1
@@ -92,9 +93,16 @@ func _update_river_miles() -> void:
 		items = _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
 		if item.item_name == "wood": continue
-		# warning-ignore:narrowing_conversion
-		var mile: Sprite = _river_miles.get_child(abs(item.value) - 1)
-		mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
+		if item.distance <= 0:
+			pass
+		else:
+			var mile: Sprite = _river_miles.get_child(item.distance - 1)
+			mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
+
+func _decrease_distance() -> void:
+	for item in _boat_items.get_items() + _boat_caps.get_items():
+		item.distance -= 1
+	_update_river_miles()
 
 func _arrive(item: Sprite) -> void:
 	_moving = false

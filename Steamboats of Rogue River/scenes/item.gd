@@ -13,4 +13,5 @@ var distance: int = 0
 func _init(new_item_name, new_value) -> void:
 	item_name = new_item_name
 	value = new_value
-	distance = new_value
+	# warning-ignore:narrowing_conversion
+	distance = abs(new_value)
