@@ -27,9 +27,9 @@ func _ready() -> void:
 	for _i in range(_rng.randi_range(2, 4)):
 		_dock_items.add_new_item("wood", -1)
 	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("crate", 1)
+		_dock_items.add_new_item("crate", 2)
 	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("barrel", 2)
+		_dock_items.add_new_item("barrel", 4)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -77,8 +77,10 @@ func _update_container(container: GridContainer) -> void:
 func _update_river_miles() -> void:
 	for mile in _river_miles.get_children():
 		mile.get_node("Item").texture = null
-	var items = _boat_items if _moving else _dock_items
-	for item in items.get_items():
+	var items = _dock_items.get_items() + _dock_caps.get_items()
+	if _moving:
+		items = _boat_items.get_items() + _boat_caps.get_items()
+	for item in items:
 		if item.item_name == "wood": continue
 		# warning-ignore:narrowing_conversion
 		var mile = _river_miles.get_child(abs(item.value) - 1)
