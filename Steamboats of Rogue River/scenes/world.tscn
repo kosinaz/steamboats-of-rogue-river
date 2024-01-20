@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://scenes/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/retro.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
 [ext_resource path="res://assets/button_pressed.png" type="Texture" id=16]
 [ext_resource path="res://assets/button.png" type="Texture" id=17]
-[ext_resource path="res://scenes/panel.tres" type="StyleBox" id=18]
+[ext_resource path="res://resources/panel.tres" type="StyleBox" id=18]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 12 )
