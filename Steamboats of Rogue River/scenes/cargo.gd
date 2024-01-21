@@ -10,6 +10,7 @@ func _init(size) -> void:
 	_size = size
 
 func add(item: Item) -> void:
+	if is_full(): return
 	_items.append(item)
 	emit_signal("updated")
 

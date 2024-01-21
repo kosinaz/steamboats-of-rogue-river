@@ -6,6 +6,7 @@ var _dock_caps: Cargo = Cargo.new(3)
 var _dock_items: Cargo = Cargo.new(12)
 var _boat_caps: Cargo = Cargo.new(1)
 var _boat_items: Cargo = Cargo.new(6)
+var _river: Array = ["crate", "barrel", "vase", "chest", "ball", "fish"]
 var _moving: bool = false
 onready var _dock: TileMap = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
@@ -17,6 +18,7 @@ onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	randomize()
 	_rng.randomize()
 	_init_container(_dock_caps, _dock_cap_container)
 	_init_container(_dock_items, _dock_item_container)
@@ -24,20 +26,14 @@ func _ready() -> void:
 	_init_container(_boat_items, _boat_item_container)
 	_dock_caps.add_new_item("cap1", -5)
 	_dock_caps.add_new_item("cap2", -6)
-	for _i in range(_rng.randi_range(1, 1)):
+	_river.shuffle()
+	var current_items = _river.duplicate()
+	current_items.shuffle()
+	for _i in range(_rng.randi_range(1, 5)):
 		_dock_items.add_new_item("wood", -1)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("crate", 1)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("barrel", 2)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("vase", 3)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("chest", 4)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("ball", 5)
-	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("fish", 6)
+	for i in range(_rng.randi_range(1, 6)):
+		for _j in range(_rng.randi_range(1, 6)):
+			_dock_items.add_new_item(current_items[i], _river.find(current_items[i]) + 1)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
