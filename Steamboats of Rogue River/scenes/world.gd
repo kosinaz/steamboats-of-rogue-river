@@ -37,7 +37,7 @@ func _ready() -> void:
 	for _i in range(_rng.randi_range(1, 1)):
 		_dock_items.add_new_item("ball", 5)
 	for _i in range(_rng.randi_range(1, 1)):
-		_dock_items.add_new_item("fish", 5)
+		_dock_items.add_new_item("fish", 6)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -95,6 +95,7 @@ func _update_container(container: GridContainer) -> void:
 
 func _update_river_miles() -> void:
 	for mile in _river_miles.get_children():
+		mile.get_node("Cap").texture = null
 		mile.get_node("Item").texture = null
 	var items: Array = _dock_items.get_items() + _dock_caps.get_items()
 	if _moving:
@@ -105,7 +106,11 @@ func _update_river_miles() -> void:
 			pass
 		else:
 			var mile: Sprite = _river_miles.get_child(item.distance - 1)
-			mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
+			if item.item_name.begins_with("cap"):
+				mile.get_node("Cap").texture = load("res://assets/" + item.item_name + ".png")
+			else:
+				mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
+			
 
 func _decrease_distance() -> void:
 	for item in _boat_items.get_items() + _boat_caps.get_items():
