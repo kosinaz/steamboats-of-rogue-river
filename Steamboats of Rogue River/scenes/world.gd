@@ -8,6 +8,8 @@ var _boat_caps: Cargo = Cargo.new(1)
 var _boat_items: Cargo = Cargo.new(6)
 var _river: Array = ["crate", "barrel", "vase", "chest", "ball", "fish"]
 var _moving: bool = false
+var _arriving: bool = false
+var _distance: int = 0
 onready var _dock: TileMap = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -29,7 +31,7 @@ func _ready() -> void:
 	_river.shuffle()
 	var current_items = _river.duplicate()
 	current_items.shuffle()
-	for _i in range(_rng.randi_range(1, 5)):
+	for _i in range(_rng.randi_range(1, 6)):
 		_dock_items.add_new_item("wood", -1)
 	for i in range(_rng.randi_range(1, 6)):
 		for _j in range(_rng.randi_range(1, 6)):
@@ -37,19 +39,31 @@ func _ready() -> void:
 	_update_river_miles()
 		
 func _process(_delta) -> void:
+	if _arriving and _dock.position.x == 0:
+		_moving = false
+		_arriving = false
+		_distance = 0
+		for i in range(_river_miles.get_children().size()):
+			var mile_to_reset = _river_miles.get_children()[i]
+			mile_to_reset.position.x = (i + 1) * 64
+			_decrease_distance()
 	if not _moving: return
-	if _dock.position.x > -576 * 2:
+	if _dock.position.x >= -576 * 2:
 		_dock.position.x -= 4
+		if _distance == 0:
+			_dock.position.y -=1
+		if _distance == 6:
+			if _arriving == false: 
+				_dock.position.x = 576 * 2
+				_arriving = true
+			_dock.position.y += 1
 	else:
 		_dock.position.x = -576
+		_distance += 1
+		print(_distance)
 	for mile in _river_miles.get_children():
-		if mile.position.x < 0:
-			for mile_to_reset in _river_miles.get_children():
-				mile_to_reset.position.x += 64
-			_decrease_distance()
-			break
-		else:
-			mile.position.x -= 0.1
+		if mile.position.x > 0:
+			mile.position.x -= 0.05
 
 func _init_container(cargo: Cargo, container: GridContainer) -> void:
 	# warning-ignore:return_value_discarded
