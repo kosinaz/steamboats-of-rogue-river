@@ -24,12 +24,20 @@ func _ready() -> void:
 	_init_container(_boat_items, _boat_item_container)
 	_dock_caps.add_new_item("cap1", -5)
 	_dock_caps.add_new_item("cap2", -6)
-	for _i in range(_rng.randi_range(2, 4)):
+	for _i in range(_rng.randi_range(1, 1)):
 		_dock_items.add_new_item("wood", -1)
-	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("crate", 2)
-	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("barrel", 4)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("crate", 1)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("barrel", 2)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("vase", 3)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("chest", 4)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("ball", 5)
+	for _i in range(_rng.randi_range(1, 1)):
+		_dock_items.add_new_item("fish", 5)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
