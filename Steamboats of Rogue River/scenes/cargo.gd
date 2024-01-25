@@ -14,8 +14,8 @@ func add(item: Item) -> void:
 	_items.append(item)
 	emit_signal("updated")
 
-func add_new_item(new_item_name, new_value) -> void:
-	var item = Item.new(new_item_name, new_value)
+func add_new_item(new_item_name, new_dock, new_value) -> void:
+	var item = Item.new(new_item_name, new_dock, new_value)
 	add(item)
 
 func move(idx: int, target: Cargo) -> void:

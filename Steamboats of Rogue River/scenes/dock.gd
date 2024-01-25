@@ -3,14 +3,20 @@ extends Node
 
 var _caps: Cargo = Cargo.new(3)
 var _items: Cargo = Cargo.new(12)
-var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var _id: int = 0
 
-func _init(items: Array) -> void:
-	for _i in range(_rng.randi_range(1, 6)):
-		_items.add_new_item("wood", -1)
-	var value = _rng.randi_range(1, 3)
-	for _i in range(_rng.randi_range(1, 6)):
-		_items.add_new_item(items[0], value)
-	value += _rng.randi_range(1, 3)
-	for _i in range(_rng.randi_range(1, 6)):
-		_items.add_new_item(items[1], value)
+func _init(id: int):
+	_id = id
+
+func add_cap(cap_name: String, value: int) -> void:
+	_caps.add_new_item(cap_name, _id, value)
+
+func add_items(item_name: String, value: int, count: int) -> void:
+	for _i in range(count):
+		_items.add_new_item(item_name, _id, value)
+
+func get_caps() -> Cargo:
+	return _caps
+
+func get_items() -> Cargo:
+	return _items

@@ -1,14 +1,12 @@
 extends Node2D
 
 
-var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _balance: int = 10
-var _dock_caps: Cargo = Cargo.new(3)
-var _dock_items: Cargo = Cargo.new(12)
 var _boat_caps: Cargo = Cargo.new(1)
 var _boat_items: Cargo = Cargo.new(6)
-var _river: Array = ["crate", "barrel", "vase", "chest", "ball", "fish"]
-var _current_items: Array = []
+var _dock_caps: Cargo = Cargo.new(3)
+var _dock_items: Cargo = Cargo.new(12)
+var _river: River = River.new()
 var _moving: bool = false
 var _arriving: bool = false
 var _distance: int = 0
@@ -22,32 +20,11 @@ onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	randomize()
-	_rng.randomize()
-	_init_container(_dock_caps, _dock_cap_container)
-	_init_container(_dock_items, _dock_item_container)
-	_init_container(_boat_caps, _boat_cap_container)
-	_init_container(_boat_items, _boat_item_container)
-	_river.shuffle()
-	for i in range(6):
-		_current_items.append(_river[i])
-	_current_items.shuffle()
 	_init_dock()
 
 func _init_dock() -> void:
-	_dock_caps.clear()
-	_dock_items.clear()
-	if not _boat_caps.is_full() or _boat_caps.get_item(0).distance == 1:
-		_dock_caps.add_new_item("cap1", -1)
-		_dock_caps.add_new_item("cap2", -2)
-	for _i in range(_rng.randi_range(1, 6)):
-		_dock_items.add_new_item("wood", -1)
-	for _i in range(_rng.randi_range(1, _current_items.size() - 1)):
-		var item = _current_items.pop_front()
-		if item == null:
-			break
-		for _j in range(_rng.randi_range(1, 6)):
-			_dock_items.add_new_item(item, _river.find(item) + 1)
+	_dock_caps = _river.get_dock_caps(_distance)
+	_dock_items = _river.get_dock_items(_distance)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -117,13 +94,14 @@ func _update_river_miles() -> void:
 		mile.get_node("Item").texture = null
 	var items: Array = _dock_items.get_items() + _dock_caps.get_items() + _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
-		if item.item_name == "wood": continue
-		if item.item_name.begins_with("cap"):
+		print(item)
+		if item.get_name() == "wood": continue
+		if item.get_name().begins_with("cap"):
 			var mile: Sprite = _river_miles.get_child(item.distance)
-			mile.get_node("Cap").texture = load("res://assets/" + item.item_name + ".png")
+			mile.get_node("Cap").texture = load("res://assets/" + item.get_name() + ".png")
 		else:
-			var mile: Sprite = _river_miles.get_child(_river.find(item.item_name))
-			mile.get_node("Item").texture = load("res://assets/" + item.item_name + ".png")
+			var mile: Sprite = _river_miles.get_child(_river.find(item.get_name()))
+			mile.get_node("Item").texture = load("res://assets/" + item.get_name() + ".png")
 
 func _decrease_distance() -> void:
 	_boat_caps.get_item(0).distance -= 1
