@@ -47,3 +47,8 @@ func has_type_of_item(item_name: String) -> bool:
 
 func has_any_item() -> bool:
 	return get_item(0) != null
+
+func clear() -> void:
+	_items = []
+	emit_signal("updated")
+	
