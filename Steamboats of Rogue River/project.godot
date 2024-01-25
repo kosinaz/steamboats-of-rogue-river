@@ -15,13 +15,25 @@ _global_script_classes=[ {
 "path": "res://scenes/cargo.gd"
 }, {
 "base": "Node",
+"class": "Dock",
+"language": "GDScript",
+"path": "res://scenes/dock.gd"
+}, {
+"base": "Node",
 "class": "Item",
 "language": "GDScript",
 "path": "res://scenes/item.gd"
+}, {
+"base": "Node",
+"class": "River",
+"language": "GDScript",
+"path": "res://scenes/river.gd"
 } ]
 _global_script_class_icons={
 "Cargo": "",
-"Item": ""
+"Dock": "",
+"Item": "",
+"River": ""
 }
 
 [application]

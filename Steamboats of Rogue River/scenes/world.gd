@@ -1,5 +1,6 @@
 extends Node2D
 
+
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _balance: int = 10
 var _dock_caps: Cargo = Cargo.new(3)
