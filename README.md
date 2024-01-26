@@ -8,24 +8,24 @@ Features:
     * Each playthrough offers a unique experience with a procedurally generated river filled with random encounters and picturesque docks offering valuable trading goods.
 
 1. Ship Management:
-    * Manage your steamboat and its crew, upgrading and repairing components, and hiring more experienced crew members as you progress.
+    * Manage your steamboat and her captain, upgrading and repairing components, and hiring more experienced captains as you progress.
     * Encounter different vessels, each with its strengths, weaknesses, and unique abilities.
 
 1. Resource Management:
-    * Collect and manage resources like wood for fuel, and food for the crew.
-    * Make strategic decisions about resource allocation to ensure the survival of your crew and the ship.
+    * Collect and manage resources like wood for fuel and repairs, and of course money to hire better captains and buy more wood.
+    * Make strategic decisions about resource allocation to ensure the survival of your ship.
 
 1. Decision Making:
     * Encounter quirky characters inspired by classic cartoons, each with their own requests, trades, or challenges.
-    * Make crucial decisions that impact your crew, resources, and the overall storyline.
+    * Make crucial decisions that impact your ship, resources, and the overall storyline.
 
 1. Random Events:
     * Encounter random events such as treacherous reefs, sudden storms, floating ice, or some rare times even the inexplicable horrors of the sailors' legends.
-    * Your decisions during these events affect your crew, resources, and the overall progression of the game.
+    * Your decisions during these events affect your ship, resources, and the overall progression of the game.
 
 1. Time Pressure:
     * The game is time-sensitive due to the limited resources.
-    * Reach your destination before time runs out, and adapt your strategy to the changing conditions.
+    * Reach your destination before your resources run out, and adapt your strategy to the changing conditions.
 
 1. Unlockable Content:
     * Discover hidden docks, goods, characters, and upgrades as you progress through multiple playthroughs.
