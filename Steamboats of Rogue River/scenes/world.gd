@@ -1,7 +1,11 @@
 extends Node2D
 
+var CAPS: Array = ["cap1", "cap2", "cap3", "cap4", "cap5", "cap6"]
+var ITEMS: Array = ["anchor", "ball", "barrel", "bottles", "bowl", "cannon", "canoe", "chest", "crate", "fish", "sack", "vase"]
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _balance: int = 10
+var _free_caps: Array = []
+var _free_items: Array = []
 var _dock_caps: Cargo = Cargo.new(3)
 var _dock_items: Cargo = Cargo.new(12)
 var _boat_caps: Cargo = Cargo.new(1)
@@ -19,6 +23,7 @@ onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	randomize()
 	_rng.randomize()
 	_init_container(_dock_caps, _dock_cap_container)
 	_init_container(_dock_items, _dock_item_container)
@@ -27,14 +32,26 @@ func _ready() -> void:
 	_init_dock()
 
 func _init_dock() -> void:
-	_dock_caps.add_new_item("cap1", 0, -5)
-	_dock_caps.add_new_item("cap2", 0, -6)
-	for _i in range(_rng.randi_range(2, 4)):
+	if _free_caps.size() == 0:
+		_free_caps = CAPS.duplicate()
+		_free_caps.shuffle()
+	var value = _rng.randi_range(1, 3)
+	_dock_caps.add_new_item(_free_caps.pop_front(), 0, -value)
+	value += _rng.randi_range(1, 3)
+	_dock_caps.add_new_item(_free_caps.pop_front(), 0, -value)
+	for _i in range(_rng.randi_range(1, 3)):
 		_dock_items.add_new_item("wood", 0, -1)
-	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("crate", 0, 2)
-	for _i in range(_rng.randi_range(1, 3)):
-		_dock_items.add_new_item("barrel", 0, 4)
+	if _free_items.size() == 0:
+		_free_items = ITEMS.duplicate()
+		_free_items.shuffle()
+	value = _rng.randi_range(1, 3)
+	var item = _free_items.pop_front()
+	for _i in range(1, 5):
+		_dock_items.add_new_item(item, 0, value)
+	value += _rng.randi_range(1, 3)
+	item = _free_items.pop_front()
+	for _i in range(1, 5):
+		_dock_items.add_new_item(item, 0, value)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -42,7 +59,6 @@ func _process(_delta) -> void:
 		_moving = false
 		_arriving = false
 		_distance = 0
-#		_decrease_distance()
 		for i in range(_river_miles.get_children().size()):
 			var mile_to_reset = _river_miles.get_children()[i]
 			mile_to_reset.position.x = (i + 1) * 64
@@ -112,13 +128,6 @@ func _update_river_miles() -> void:
 		items = _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
 		if item.get_name() == "wood": continue
-#		var mile: Sprite = _river_miles.get_child(item.distance - 1)
-#		mile.get_node("Item").texture = load("res://assets/" + item.get_name() + ".png")
-
-func _decrease_distance() -> void:
-	for item in _boat_items.get_items() + _boat_caps.get_items():
-		item.distance -= 1
-	_update_river_miles()
 
 func _arrive(item: Sprite) -> void:
 	_moving = false
