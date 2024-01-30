@@ -41,7 +41,7 @@ func is_full() -> bool:
 
 func has_type_of_item(item_name: String) -> bool:
 	for item in _items:
-		if item.item_name == item_name:
+		if item.get_name() == item_name:
 			return true
 	return false
 

@@ -15,14 +15,14 @@ func _init(new_item_name, new_dock, new_value) -> void:
 	_dock = new_dock
 	_value = new_value
 	
-func _get_name() -> String:
+func get_name() -> String:
 	return _item_name
 	
-func _get_value() -> int:
+func get_value() -> int:
 	return _value
 	
-func _get_dock() -> int:
+func get_dock() -> int:
 	return _dock
 	
-func _get_destination() -> int:
+func get_destination() -> int:
 	return _dock + int(abs(_value))
