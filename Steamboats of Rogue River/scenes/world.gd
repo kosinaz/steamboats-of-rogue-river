@@ -31,8 +31,8 @@ func _ready() -> void:
 	_init_container(_boat_caps, _boat_cap_container)
 	_init_container(_boat_items, _boat_item_container)
 	_init_dock()
-	_boat_items.add_new_item("wood", 0, -1)
-	_boat_items.add_new_item("wood", 0, -1)
+	_boat_items.add_new_item("wood", 0, 0, -1)
+	_boat_items.add_new_item("wood", 0, 0, -1)
 
 func _init_dock() -> void:
 	_dock_caps.clear()
@@ -43,11 +43,11 @@ func _init_dock() -> void:
 			_free_caps = CAPS.duplicate()
 			_free_caps.shuffle()
 		value = _rng.randi_range(1, 3)
-		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, -value)
+		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
 		value += _rng.randi_range(1, 3)
-		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, -value)
-	for _i in range(_rng.randi_range(0, 3)):
-		_dock_items.add_new_item("wood", 0, -1)
+		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
+	for _i in range(_rng.randi_range(0, 4)):
+		_dock_items.add_new_item("wood", 0, 0, -1)
 	if _free_items.size() == 0:
 		_free_items = ITEMS.duplicate()
 		_free_items.shuffle()
@@ -56,12 +56,12 @@ func _init_dock() -> void:
 	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
-			_dock_items.add_new_item(item, _dock_id, value)
+			_dock_items.add_new_item(item, _dock_id, value, value)
 	value += _rng.randi_range(1, 2)
 	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
-			_dock_items.add_new_item(item, _dock_id, value)
+			_dock_items.add_new_item(item, _dock_id, value, value)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -103,7 +103,7 @@ func _auto_remove_items() -> void:
 				_boat_items.remove(i)
 				burned = true
 		elif items[i].get_destination() == _dock_id:
-			_update_balance(items[i].get_value())
+			_update_balance(items[i].get_price())
 			_boat_items.remove(i)
 
 func _reset_miles() -> void:
@@ -137,7 +137,7 @@ func _update_container(container: GridContainer) -> void:
 	for i in range(items_buttons.size()):
 		if items.get_item(i):
 			items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "big.png")
-			items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).get_value())
+			items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).get_price())
 			items_buttons[i].get_node("%ValuePanel").show()
 		else:
 			items_buttons[i].texture_normal = load("res://assets/no_item.png")
@@ -189,9 +189,9 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 	var item: Item = items.get_item(i)
 	if item == null: return
 	if target.is_full(): return
-	if item.get_value() < 0:
-		if multiplier == -1 and -item.get_value() > _balance: return
-		_update_balance(item.get_value() * -multiplier)
+	if item.get_price() < 0:
+		if multiplier == -1 and -item.get_price() > _balance: return
+		_update_balance(item.get_price() * -multiplier)
 	items.move(i, target)
 
 func _on_go_button_pressed() -> void:

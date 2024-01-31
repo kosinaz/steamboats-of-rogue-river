@@ -14,8 +14,8 @@ func add(item: Item) -> void:
 	_items.append(item)
 	emit_signal("updated")
 
-func add_new_item(new_item_name, new_dock, new_value) -> void:
-	var item = Item.new(new_item_name, new_dock, new_value)
+func add_new_item(new_item_name, new_dock, new_distance, new_price) -> void:
+	var item = Item.new(new_item_name, new_dock, new_distance, new_price)
 	add(item)
 
 func move(id: int, target: Cargo) -> void:
@@ -24,7 +24,6 @@ func move(id: int, target: Cargo) -> void:
 	remove(id)
 
 func remove(id: int) -> void:
-	print(_items[id].get_name(), " removed")
 	_items.remove(id)
 	emit_signal("updated")
 
