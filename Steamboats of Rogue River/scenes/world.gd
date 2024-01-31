@@ -57,7 +57,7 @@ func _init_dock() -> void:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
 			_dock_items.add_new_item(item, _dock_id, value)
-	value += _rng.randi_range(1, 3)
+	value += _rng.randi_range(1, 2)
 	if _river_miles.get_child(value + 1).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
@@ -69,7 +69,7 @@ func _process(_delta) -> void:
 		_moving = false
 		_arriving = false
 		_distance = 0
-		_sell_items()
+		_auto_remove_items()
 		_reset_miles()
 	if not _moving: return
 	if _dock.position.x >= -576 * 2:
@@ -90,8 +90,18 @@ func _process(_delta) -> void:
 		if mile.position.x > 0:
 			mile.position.x -= 0.05
 
-func _sell_items() -> void:
-	pass
+func _auto_remove_items() -> void:
+	var burned: bool = false
+	var items: Array = _boat_items.get_items()
+	for i in range(items.size() - 1):
+		if items[i].get_name() == "wood":
+			if burned == false:
+				items.remove(i)
+				burned = true
+			continue
+		if items[i].get_destination() == _dock_id:
+			_update_balance(items[i].get_value())
+			items.remove(i)
 
 func _reset_miles() -> void:
 	for i in range(_river_miles.get_children().size()):

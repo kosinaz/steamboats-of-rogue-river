@@ -18,12 +18,15 @@ func add_new_item(new_item_name, new_dock, new_value) -> void:
 	var item = Item.new(new_item_name, new_dock, new_value)
 	add(item)
 
-func move(idx: int, target: Cargo) -> void:
-	if _items.size() <= idx: return
-	target.add(_items[idx])
-	_items.remove(idx)
+func move(id: int, target: Cargo) -> void:
+	if _items.size() <= id: return
+	target.add(_items[id])
+	remove(id)
+
+func remove(id: int) -> void:
+	print(_items[id].get_name(), " removed")
+	_items.remove(id)
 	emit_signal("updated")
-	target.emit_signal("updated")
 
 func get_item(i: int) -> Item:
 	if _items.size() > i:
