@@ -13,6 +13,7 @@ var _boat_items: Cargo = Cargo.new(6)
 var _moving: bool = false
 var _arriving: bool = false
 var _distance: int = 0
+var _dock_id: int = 0
 onready var _dock: TileMap = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -30,16 +31,22 @@ func _ready() -> void:
 	_init_container(_boat_caps, _boat_cap_container)
 	_init_container(_boat_items, _boat_item_container)
 	_init_dock()
+	_boat_items.add_new_item("wood", 0, -1)
+	_boat_items.add_new_item("wood", 0, -1)
 
 func _init_dock() -> void:
-	if _free_caps.size() == 0:
-		_free_caps = CAPS.duplicate()
-		_free_caps.shuffle()
-	var value = _rng.randi_range(1, 3)
-	_dock_caps.add_new_item(_free_caps.pop_front(), 0, -value)
-	value += _rng.randi_range(1, 3)
-	_dock_caps.add_new_item(_free_caps.pop_front(), 0, -value)
-	for _i in range(_rng.randi_range(1, 3)):
+	_dock_caps.clear()
+	_dock_items.clear()
+	var value: int = 0
+	if not _boat_caps.is_full() or _boat_caps.get_item(0).get_destination() == _dock_id:
+		if _free_caps.size() == 0:
+			_free_caps = CAPS.duplicate()
+			_free_caps.shuffle()
+		value = _rng.randi_range(1, 3)
+		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, -value)
+		value += _rng.randi_range(1, 3)
+		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, -value)
+	for _i in range(_rng.randi_range(0, 3)):
 		_dock_items.add_new_item("wood", 0, -1)
 	if _free_items.size() == 0:
 		_free_items = ITEMS.duplicate()
@@ -47,11 +54,11 @@ func _init_dock() -> void:
 	value = _rng.randi_range(1, 3)
 	var item = _free_items.pop_front()
 	for _i in range(1, 5):
-		_dock_items.add_new_item(item, 0, value)
+		_dock_items.add_new_item(item, _dock_id, value)
 	value += _rng.randi_range(1, 3)
 	item = _free_items.pop_front()
 	for _i in range(1, 5):
-		_dock_items.add_new_item(item, 0, value)
+		_dock_items.add_new_item(item, _dock_id, value)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -59,28 +66,31 @@ func _process(_delta) -> void:
 		_moving = false
 		_arriving = false
 		_distance = 0
-		for i in range(_river_miles.get_children().size()):
-			var mile_to_reset = _river_miles.get_children()[i]
-			mile_to_reset.position.x = (i + 1) * 64
-			
+		_reset_miles()
 	if not _moving: return
 	if _dock.position.x >= -576 * 2:
 		_dock.position.x -= 4
 		if _distance == 0:
 			_dock.position.y -=1
-		if _distance == 1:
-			_init_dock()
 		if _distance == 6:
-			if _arriving == false: 
-				_dock.position.x = 576 * 2
-				_arriving = true
 			_dock.position.y += 1
 	else:
 		_dock.position.x = -576
 		_distance += 1
+		if _distance == 6 and _arriving == false:
+			_dock.position.x = 576 * 2
+			_arriving = true
+			_dock_id += 1
+			_init_dock()
 	for mile in _river_miles.get_children():
 		if mile.position.x > 0:
 			mile.position.x -= 0.05
+
+func _reset_miles() -> void:
+	for i in range(_river_miles.get_children().size()):
+		var mile_to_reset = _river_miles.get_children()[i]
+		mile_to_reset.position.x = (i + 1) * 64
+	_update_river_miles()
 
 func _init_container(cargo: Cargo, container: GridContainer) -> void:
 	# warning-ignore:return_value_discarded
@@ -107,31 +117,30 @@ func _update_container(container: GridContainer) -> void:
 	for i in range(items_buttons.size()):
 		if items.get_item(i):
 			items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "big.png")
-			if not _moving:
-				items_buttons[i].get_node("%ValuePanel").show()
-				items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).get_value())
-			else:
-				items_buttons[i].get_node("%ValuePanel").hide()
+			items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).get_value())
+			items_buttons[i].get_node("%ValuePanel").show()
 		else:
-			if not _moving:
-				items_buttons[i].texture_normal = load("res://assets/no_item.png")
-			else:
-				items_buttons[i].texture_normal = null
+			items_buttons[i].texture_normal = load("res://assets/no_item.png")
 			items_buttons[i].get_node("%ValuePanel").hide()
 	_go_button.disabled = not _is_ready_to_go()
 
 func _update_river_miles() -> void:
 	for mile in _river_miles.get_children():
+		mile.get_node("Cap").texture = null
 		mile.get_node("Item").texture = null
-	var items: Array = _dock_items.get_items() + _dock_caps.get_items()
+	var items: Array = _dock_items.get_items() + _dock_caps.get_items() + _boat_items.get_items() + _boat_caps.get_items()
 	if _moving:
 		items = _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
 		if item.get_name() == "wood": continue
-
-func _arrive(item: Sprite) -> void:
-	_moving = false
-	print(item)
+		var mile_id: int = item.get_destination() - _dock_id
+		if not _arriving:
+			mile_id -= 1
+		var mile: Sprite = _river_miles.get_child(mile_id)
+		var mile_icon = mile.get_node("Item")
+		if item.get_name().begins_with("cap"):
+			mile_icon = mile.get_node("Cap")
+		mile_icon.texture = load("res://assets/" + item.get_name() + ".png")
 
 func _update_balance(value: int) -> void:
 	_balance += value

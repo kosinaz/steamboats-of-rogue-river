@@ -128,7 +128,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Mile3" type="Sprite" parent="RiverPanel/River/RiverMiles"]
 position = Vector2( 192, 0 )
@@ -137,7 +137,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Mile4" type="Sprite" parent="RiverPanel/River/RiverMiles"]
 position = Vector2( 256, 0 )
@@ -146,7 +146,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Mile5" type="Sprite" parent="RiverPanel/River/RiverMiles"]
 position = Vector2( 320, 0 )
@@ -155,7 +155,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Mile6" type="Sprite" parent="RiverPanel/River/RiverMiles"]
 position = Vector2( 384, 0 )
@@ -164,7 +164,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Mile7" type="Sprite" parent="RiverPanel/River/RiverMiles"]
 position = Vector2( 448, 0 )
@@ -173,7 +173,7 @@ texture = ExtResource( 14 )
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile7"]
 
 [node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile7"]
-position = Vector2( -64, 32 )
+position = Vector2( 0, 32 )
 
 [node name="Boat" type="Node2D" parent="RiverPanel/River"]
 
