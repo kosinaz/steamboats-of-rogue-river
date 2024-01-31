@@ -51,14 +51,17 @@ func _init_dock() -> void:
 	if _free_items.size() == 0:
 		_free_items = ITEMS.duplicate()
 		_free_items.shuffle()
+	var item: String = ""
 	value = _rng.randi_range(1, 3)
-	var item = _free_items.pop_front()
-	for _i in range(1, 5):
-		_dock_items.add_new_item(item, _dock_id, value)
+	if _river_miles.get_child(value + 1).get_node("Item").texture == null:
+		item = _free_items.pop_front()
+		for _i in range(1, 5):
+			_dock_items.add_new_item(item, _dock_id, value)
 	value += _rng.randi_range(1, 3)
-	item = _free_items.pop_front()
-	for _i in range(1, 5):
-		_dock_items.add_new_item(item, _dock_id, value)
+	if _river_miles.get_child(value + 1).get_node("Item").texture == null:
+		item = _free_items.pop_front()
+		for _i in range(1, 5):
+			_dock_items.add_new_item(item, _dock_id, value)
 	_update_river_miles()
 		
 func _process(_delta) -> void:
@@ -66,6 +69,7 @@ func _process(_delta) -> void:
 		_moving = false
 		_arriving = false
 		_distance = 0
+		_sell_items()
 		_reset_miles()
 	if not _moving: return
 	if _dock.position.x >= -576 * 2:
@@ -85,6 +89,9 @@ func _process(_delta) -> void:
 	for mile in _river_miles.get_children():
 		if mile.position.x > 0:
 			mile.position.x -= 0.05
+
+func _sell_items() -> void:
+	pass
 
 func _reset_miles() -> void:
 	for i in range(_river_miles.get_children().size()):
