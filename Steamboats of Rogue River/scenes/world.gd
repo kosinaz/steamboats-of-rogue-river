@@ -53,12 +53,12 @@ func _init_dock() -> void:
 		_free_items.shuffle()
 	var item: String = ""
 	value = _rng.randi_range(1, 3)
-	if _river_miles.get_child(value + 1).get_node("Item").texture == null:
+	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
 			_dock_items.add_new_item(item, _dock_id, value)
 	value += _rng.randi_range(1, 2)
-	if _river_miles.get_child(value + 1).get_node("Item").texture == null:
+	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
 			_dock_items.add_new_item(item, _dock_id, value)
@@ -91,17 +91,20 @@ func _process(_delta) -> void:
 			mile.position.x -= 0.05
 
 func _auto_remove_items() -> void:
+	if _boat_caps.get_item(0).get_destination() == _dock_id:
+		_boat_caps.remove(0)
 	var burned: bool = false
 	var items: Array = _boat_items.get_items()
-	for i in range(items.size() - 1):
+	var i: int = items.size()
+	while i > 0:
+		i -= 1
 		if items[i].get_name() == "wood":
 			if burned == false:
-				items.remove(i)
+				_boat_items.remove(i)
 				burned = true
-			continue
-		if items[i].get_destination() == _dock_id:
+		elif items[i].get_destination() == _dock_id:
 			_update_balance(items[i].get_value())
-			items.remove(i)
+			_boat_items.remove(i)
 
 func _reset_miles() -> void:
 	for i in range(_river_miles.get_children().size()):
