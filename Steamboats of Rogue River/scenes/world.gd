@@ -14,11 +14,12 @@ var _moving: bool = false
 var _arriving: bool = false
 var _distance: int = 0
 var _dock_id: int = 0
-onready var _dock: TileMap = $"%Dock"
+onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
 onready var _boat_cap_container: GridContainer = $"%BoatCapContainer"
 onready var _boat_item_container: GridContainer = $"%BoatItemContainer"
+onready var _boat_wheel: AnimatedSprite = $"%BoatWheel"
 onready var _river_miles: Node = $"%RiverMiles"
 onready var _go_button: TextureButton = $"%GoButton"
 
@@ -69,6 +70,7 @@ func _process(_delta) -> void:
 		_moving = false
 		_arriving = false
 		_distance = 0
+		_boat_wheel.stop()
 		_auto_remove_items()
 		_reset_miles()
 	if not _moving: return
@@ -197,6 +199,7 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
 	_moving = true
+	_boat_wheel.play()
 	_update_river_miles()
 	_update_container(_dock_cap_container)
 	_update_container(_dock_item_container)

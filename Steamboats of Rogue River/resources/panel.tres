@@ -2,9 +2,9 @@
 
 [resource]
 resource_name = "panel"
-bg_color = Color( 0.709804, 0.690196, 0.866667, 1 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.266667, 0.254902, 0.364706, 1 )
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0, 0, 0, 1 )
