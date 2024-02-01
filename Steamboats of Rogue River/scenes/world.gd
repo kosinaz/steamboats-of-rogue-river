@@ -40,7 +40,7 @@ func _init_dock() -> void:
 	_dock_items.clear()
 	var value: int = 0
 	if not _boat_caps.is_full() or _boat_caps.get_item(0).get_destination() == _dock_id:
-		if _free_caps.size() == 0:
+		if _free_caps.size() < 2:
 			_free_caps = CAPS.duplicate()
 			_free_caps.shuffle()
 		value = _rng.randi_range(1, 3)
@@ -49,7 +49,7 @@ func _init_dock() -> void:
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
 	for _i in range(_rng.randi_range(0, 4)):
 		_dock_items.add_new_item("wood", 0, 0, -1)
-	if _free_items.size() == 0:
+	if _free_items.size() < 2:
 		_free_items = ITEMS.duplicate()
 		_free_items.shuffle()
 	var item: String = ""

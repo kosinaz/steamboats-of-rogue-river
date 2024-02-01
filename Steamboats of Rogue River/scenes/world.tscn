@@ -42,7 +42,7 @@ font_data = ExtResource( 12 )
 default_font = SubResource( 5 )
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.556863, 0.545098, 0.717647, 1 )
+bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
 
 [node name="World" type="Node2D"]
 script = ExtResource( 15 )
@@ -152,16 +152,16 @@ custom_styles/panel = ExtResource( 18 )
 
 [node name="River" type="Panel" parent="RiverPanel"]
 margin_left = 32.0
-margin_top = 32.0
+margin_top = 47.0
 margin_right = 544.0
-margin_bottom = 48.0
+margin_bottom = 63.0
 custom_styles/panel = SubResource( 2 )
 
 [node name="RiverMiles" type="Node2D" parent="RiverPanel/River"]
 unique_name_in_owner = true
 
 [node name="Mile1" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 64, 0 )
+position = Vector2( 64, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile1"]
@@ -170,7 +170,7 @@ texture = ExtResource( 14 )
 position = Vector2( 0, 32 )
 
 [node name="Mile2" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 128, 0 )
+position = Vector2( 128, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
@@ -179,7 +179,7 @@ texture = ExtResource( 14 )
 position = Vector2( 0, 32 )
 
 [node name="Mile3" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 192, 0 )
+position = Vector2( 192, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
@@ -188,7 +188,7 @@ texture = ExtResource( 14 )
 position = Vector2( 0, 32 )
 
 [node name="Mile4" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 256, 0 )
+position = Vector2( 256, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
@@ -197,7 +197,7 @@ texture = ExtResource( 14 )
 position = Vector2( 0, 32 )
 
 [node name="Mile5" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 320, 0 )
+position = Vector2( 320, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
@@ -206,7 +206,7 @@ texture = ExtResource( 14 )
 position = Vector2( 0, 32 )
 
 [node name="Mile6" type="Sprite" parent="RiverPanel/River/RiverMiles"]
-position = Vector2( 384, 0 )
+position = Vector2( 384, -9 )
 texture = ExtResource( 14 )
 
 [node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
@@ -231,17 +231,17 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -16.0
-margin_top = -16.0
+margin_top = -10.0
 margin_right = 16.0
-margin_bottom = 16.0
+margin_bottom = 22.0
 texture = ExtResource( 13 )
 
 [node name="GoButton" type="TextureButton" parent="RiverPanel"]
 unique_name_in_owner = true
-margin_left = 448.0
-margin_top = -32.0
-margin_right = 576.0
-margin_bottom = 96.0
+margin_left = 439.0
+margin_top = -10.0
+margin_right = 567.0
+margin_bottom = 118.0
 disabled = true
 texture_normal = ExtResource( 17 )
 texture_pressed = ExtResource( 16 )
