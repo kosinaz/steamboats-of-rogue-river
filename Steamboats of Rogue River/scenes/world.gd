@@ -21,6 +21,7 @@ onready var _boat_cap_container: GridContainer = $"%BoatCapContainer"
 onready var _boat_item_container: GridContainer = $"%BoatItemContainer"
 onready var _boat_wheel: AnimatedSprite = $"%BoatWheel"
 onready var _river_miles: Node = $"%RiverMiles"
+onready var _mile_label: Label = $"%MileLabel"
 onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
@@ -68,6 +69,7 @@ func _init_dock() -> void:
 		for _i in range(1, 5):
 			_dock_items.add_new_item(item, _dock_id, value, value)
 	_update_river_miles()
+	_mile_label.text = str(_dock_id) + "m"
 		
 func _process(_delta) -> void:
 	if _arriving and _dock.position.x == 0:
