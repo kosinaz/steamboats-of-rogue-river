@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://assets/shore.png" type="Texture" id=4]
 [ext_resource path="res://assets/boatwindow.png" type="Texture" id=5]
 [ext_resource path="res://assets/boatroof.png" type="Texture" id=6]
-[ext_resource path="res://assets/retro.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://assets/protest.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://resources/font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
@@ -37,14 +38,15 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFont" id=5]
-font_data = ExtResource( 12 )
-
-[sub_resource type="Theme" id=4]
-default_font = SubResource( 5 )
-
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
+
+[sub_resource type="Theme" id=4]
+
+[sub_resource type="DynamicFont" id=10]
+size = 24
+use_filter = true
+font_data = ExtResource( 7 )
 
 [node name="World" type="Node2D"]
 script = ExtResource( 15 )
@@ -135,27 +137,23 @@ texture = ExtResource( 6 )
 [node name="BalancePanel" type="Panel" parent="."]
 margin_left = 480.0
 margin_right = 576.0
-margin_bottom = 32.0
+margin_bottom = 64.0
 custom_styles/panel = ExtResource( 18 )
 
 [node name="MarginContainer" type="MarginContainer" parent="BalancePanel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.5
-margin_top = -11.0
-margin_right = 20.5
-margin_bottom = 11.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="BalanceLabel" type="Label" parent="BalancePanel/MarginContainer"]
 unique_name_in_owner = true
-margin_right = 41.0
-margin_bottom = 22.0
-theme = SubResource( 4 )
+margin_top = 12.0
+margin_right = 96.0
+margin_bottom = 51.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 8 )
 text = "$10"
 align = 1
+valign = 1
 
 [node name="RiverPanel" type="Panel" parent="."]
 margin_top = 896.0
@@ -275,21 +273,17 @@ margin_bottom = 128.0
 custom_styles/panel = ExtResource( 18 )
 
 [node name="MarginContainer" type="MarginContainer" parent="RiverPanel/MilePanel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.5
-margin_top = -11.0
-margin_right = 20.5
-margin_bottom = 11.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="MileLabel" type="Label" parent="RiverPanel/MilePanel/MarginContainer"]
 unique_name_in_owner = true
-margin_right = 41.0
-margin_bottom = 22.0
+margin_top = 1.0
+margin_right = 128.0
+margin_bottom = 31.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 10 )
 text = "1m"
 align = 1
 
@@ -308,30 +302,32 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="GameOverLabel" type="Label" parent="GameOverPanel/MarginContainer"]
-margin_top = 51.0
+margin_top = 21.0
 margin_right = 448.0
-margin_bottom = 73.0
+margin_bottom = 60.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 8 )
 text = "Game Over!"
 align = 1
 valign = 1
 
 [node name="ReasonLabel" type="Label" parent="GameOverPanel/MarginContainer"]
 unique_name_in_owner = true
-margin_top = 77.0
+margin_top = 64.0
 margin_right = 448.0
-margin_bottom = 99.0
+margin_bottom = 103.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 8 )
 text = "Not enough wood!"
 align = 1
 valign = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="GameOverPanel/MarginContainer"]
-margin_top = 103.0
+margin_top = 107.0
 margin_right = 448.0
-margin_bottom = 173.0
+margin_bottom = 202.0
 custom_constants/margin_right = 150
 custom_constants/margin_top = 50
 custom_constants/margin_left = 150
@@ -340,7 +336,8 @@ custom_constants/margin_left = 150
 margin_left = 150.0
 margin_top = 50.0
 margin_right = 298.0
-margin_bottom = 70.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 8 )
 text = "Restart"
 
 [connection signal="pressed" from="RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
