@@ -22,6 +22,8 @@ onready var _boat_item_container: GridContainer = $"%BoatItemContainer"
 onready var _boat_wheel: AnimatedSprite = $"%BoatWheel"
 onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
+onready var _game_over_panel: Panel = $"%GameOverPanel"
+onready var _reason_label: Label = $"%ReasonLabel"
 onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
@@ -79,6 +81,7 @@ func _process(_delta) -> void:
 		_boat_wheel.stop()
 		_auto_remove_items()
 		_reset_miles()
+		_check_game_over()
 	if not _moving: return
 	if _dock.position.x >= -576 * 2:
 		_dock.position.x -= 4
@@ -98,6 +101,22 @@ func _process(_delta) -> void:
 		if mile.position.x > 0:
 			mile.position.x -= 0.05
 
+func _check_game_over() -> void:
+	if not _boat_caps.is_full() and _balance + _dock_caps.get_item(0).get_price() < 0:
+		_game_over("Can't afford captain!")
+		return
+	for item in _boat_items.get_items():
+		if item.get_name() == "wood":
+			return
+	for item in _dock_items.get_items():
+		if item.get_name() == "wood" and _balance > 0:
+			return
+	_game_over("Ran out of wood!")
+
+func _game_over(text: String) -> void:
+	_game_over_panel.show()
+	_reason_label.text = text
+	
 func _auto_remove_items() -> void:
 	if _boat_caps.get_item(0).get_destination() == _dock_id:
 		_boat_caps.remove(0)
@@ -214,3 +233,7 @@ func _on_go_button_pressed() -> void:
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")
+
+func _on_restart_pressed():
+# warning-ignore:return_value_discarded
+	get_tree().reload_current_scene()
