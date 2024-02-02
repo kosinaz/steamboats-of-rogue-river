@@ -1,7 +1,7 @@
 extends Node2D
 
-var CAPS: Array = ["cap1", "cap2", "cap3", "cap4", "cap5", "cap6"]
-var ITEMS: Array = ["anchor", "ball", "barrel", "bottles", "bowl", "cannon", "canoe", "chest", "crate", "fish", "sack", "vase"]
+var CAPS: Array = ["cap1", "cap2", "cap3"]
+var ITEMS: Array = ["barrel", "box", "cow", "duck", "hay", "hen", "goat"]
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _balance: int = 10
 var _free_caps: Array = []
