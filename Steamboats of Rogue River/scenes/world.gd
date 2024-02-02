@@ -43,6 +43,8 @@ func _init_dock() -> void:
 		if _free_caps.size() < 2:
 			_free_caps = CAPS.duplicate()
 			_free_caps.shuffle()
+			if _boat_caps.is_full():
+				_free_caps.erase(_boat_caps.get_item(0).get_name())
 		value = _rng.randi_range(1, 3)
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
 		value += _rng.randi_range(1, 3)
@@ -52,6 +54,8 @@ func _init_dock() -> void:
 	if _free_items.size() < 2:
 		_free_items = ITEMS.duplicate()
 		_free_items.shuffle()
+		for item in _boat_items.get_items():
+			_free_items.erase(item.get_name())
 	var item: String = ""
 	value = _rng.randi_range(1, 3)
 	if _river_miles.get_child(value).get_node("Item").texture == null:
