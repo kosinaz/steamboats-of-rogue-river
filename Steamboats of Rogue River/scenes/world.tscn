@@ -18,7 +18,7 @@
 
 [sub_resource type="Curve2D" id=11]
 _data = {
-"points": PoolVector2Array( -1113.75, 0, 1113.75, 0, -3551.82, 900.628, -1114.92, 0.139353, 1114.92, -0.139353, -1323.2, 617.855, -1113.85, -1.74946, 1113.85, 1.74946, 905.426, 900.628, 0, 0, 0, 0, 3134.05, 900.628 )
+"points": PoolVector2Array( 0.104004, -1.8535, -0.104004, 1.8535, -5780.44, 869.212, -1114.56, 0.180637, 1114.56, -0.180637, -3551.82, 869.212, -1113.85, -0.0137686, 1113.85, 0.0137686, -1323.2, 617.857, -1114.36, -0.00301915, 1114.36, 0.00301915, 905.427, 869.212, 0, 0, 0, 0, 3134.05, 869.212 )
 }
 
 [sub_resource type="AtlasTexture" id=6]
@@ -88,6 +88,16 @@ texture = ExtResource( 4 )
 position = Vector2( 2592, 171 )
 texture = ExtResource( 4 )
 
+[node name="Shore7" type="Sprite" parent="Dock"]
+position = Vector2( -1440, 170 )
+scale = Vector2( 1, 1.00592 )
+texture = ExtResource( 4 )
+
+[node name="Shore8" type="Sprite" parent="Dock"]
+position = Vector2( -2016, 169.5 )
+scale = Vector2( 1, 1.00296 )
+texture = ExtResource( 4 )
+
 [node name="DockCapContainer" type="GridContainer" parent="Dock"]
 unique_name_in_owner = true
 margin_left = 176.0
@@ -109,7 +119,7 @@ custom_constants/hseparation = 16
 columns = 3
 
 [node name="Boat2" type="Sprite" parent="Dock"]
-position = Vector2( 2016, 512 )
+position = Vector2( 2016, 475 )
 texture = ExtResource( 9 )
 
 [node name="BoatPath" type="Path2D" parent="."]
@@ -119,14 +129,14 @@ curve = SubResource( 11 )
 
 [node name="BoatPathFollow" type="PathFollow2D" parent="BoatPath"]
 unique_name_in_owner = true
-position = Vector2( -1321.93, 617.855 )
+position = Vector2( -1311.93, 617.866 )
 rotation = -0.000574823
-offset = 2252.0
+offset = 4486.17
 rotate = false
 cubic_interp = false
 
 [node name="Boat" type="Sprite" parent="BoatPath/BoatPathFollow"]
-position = Vector2( 0.000244141, 0 )
+position = Vector2( -11.6072, -0.00665283 )
 rotation = 0.000574823
 scale = Vector2( 1.93457, 0.981851 )
 texture = ExtResource( 2 )
