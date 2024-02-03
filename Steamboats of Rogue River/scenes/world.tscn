@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -8,12 +8,18 @@
 [ext_resource path="res://assets/boatroof.png" type="Texture" id=6]
 [ext_resource path="res://assets/protest.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/boat2.png" type="Texture" id=9]
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
 [ext_resource path="res://assets/button_pressed.png" type="Texture" id=16]
 [ext_resource path="res://assets/button.png" type="Texture" id=17]
 [ext_resource path="res://resources/panel.tres" type="StyleBox" id=18]
+
+[sub_resource type="Curve2D" id=11]
+_data = {
+"points": PoolVector2Array( -1113.75, 0, 1113.75, 0, -3551.82, 900.628, -1114.92, 0.139353, 1114.92, -0.139353, -1323.2, 617.855, -1113.85, -1.74946, 1113.85, 1.74946, 905.426, 900.628, 0, 0, 0, 0, 3134.05, 900.628 )
+}
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
@@ -74,6 +80,14 @@ texture = ExtResource( 4 )
 position = Vector2( -864, 171 )
 texture = ExtResource( 4 )
 
+[node name="Shore5" type="Sprite" parent="Dock"]
+position = Vector2( 2016, 171 )
+texture = ExtResource( 4 )
+
+[node name="Shore6" type="Sprite" parent="Dock"]
+position = Vector2( 2592, 171 )
+texture = ExtResource( 4 )
+
 [node name="DockCapContainer" type="GridContainer" parent="Dock"]
 unique_name_in_owner = true
 margin_left = 176.0
@@ -94,11 +108,30 @@ custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 3
 
-[node name="Boat" type="Sprite" parent="."]
-position = Vector2( 290, 613 )
+[node name="Boat2" type="Sprite" parent="Dock"]
+position = Vector2( 2016, 512 )
+texture = ExtResource( 9 )
+
+[node name="BoatPath" type="Path2D" parent="."]
+position = Vector2( 971.975, -21.2754 )
+scale = Vector2( 0.516911, 1.01848 )
+curve = SubResource( 11 )
+
+[node name="BoatPathFollow" type="PathFollow2D" parent="BoatPath"]
+unique_name_in_owner = true
+position = Vector2( -1321.93, 617.855 )
+rotation = -0.000574823
+offset = 2252.0
+rotate = false
+cubic_interp = false
+
+[node name="Boat" type="Sprite" parent="BoatPath/BoatPathFollow"]
+position = Vector2( 0.000244141, 0 )
+rotation = 0.000574823
+scale = Vector2( 1.93457, 0.981851 )
 texture = ExtResource( 2 )
 
-[node name="BoatCapContainer" type="GridContainer" parent="Boat"]
+[node name="BoatCapContainer" type="GridContainer" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
 margin_left = -82.0
 margin_top = -80.0
@@ -108,7 +141,7 @@ custom_constants/vseparation = 0
 custom_constants/hseparation = 0
 columns = 3
 
-[node name="BoatItemContainer" type="GridContainer" parent="Boat"]
+[node name="BoatItemContainer" type="GridContainer" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
 margin_left = 30.0
 margin_top = -80.0
@@ -118,33 +151,38 @@ custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
 
-[node name="BoatWheel" type="AnimatedSprite" parent="Boat"]
+[node name="BoatWheel" type="AnimatedSprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
 position = Vector2( -98, 176 )
 frames = SubResource( 9 )
 speed_scale = 2.0
 
-[node name="BoatWindow" type="Sprite" parent="Boat"]
+[node name="BoatWindow" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 position = Vector2( -51, -28 )
 z_index = 100
 texture = ExtResource( 5 )
 
-[node name="BoatRoof" type="Sprite" parent="Boat"]
+[node name="BoatRoof" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 position = Vector2( -76, -81 )
 z_index = 100
 texture = ExtResource( 6 )
 
-[node name="BalancePanel" type="Panel" parent="."]
-margin_left = 480.0
-margin_right = 576.0
-margin_bottom = 64.0
+[node name="Camera2D" type="Camera2D" parent="BoatPath/BoatPathFollow/Boat"]
+offset = Vector2( 0, -96 )
+current = true
+
+[node name="BalancePanel" type="Panel" parent="BoatPath/BoatPathFollow/Boat"]
+margin_left = 192.0
+margin_top = -607.999
+margin_right = 288.0
+margin_bottom = -543.999
 custom_styles/panel = ExtResource( 18 )
 
-[node name="MarginContainer" type="MarginContainer" parent="BalancePanel"]
+[node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/BalancePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="BalanceLabel" type="Label" parent="BalancePanel/MarginContainer"]
+[node name="BalanceLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/BalancePanel/MarginContainer"]
 unique_name_in_owner = true
 margin_top = 12.0
 margin_right = 96.0
@@ -155,95 +193,96 @@ text = "$10"
 align = 1
 valign = 1
 
-[node name="RiverPanel" type="Panel" parent="."]
-margin_top = 896.0
-margin_right = 576.0
-margin_bottom = 1024.0
+[node name="RiverPanel" type="Panel" parent="BoatPath/BoatPathFollow/Boat"]
+margin_left = -288.0
+margin_top = 288.005
+margin_right = 288.0
+margin_bottom = 416.005
 custom_styles/panel = ExtResource( 18 )
 
-[node name="River" type="Panel" parent="RiverPanel"]
+[node name="River" type="Panel" parent="BoatPath/BoatPathFollow/Boat/RiverPanel"]
 margin_left = 32.0
 margin_top = 47.0
 margin_right = 544.0
 margin_bottom = 63.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="RiverMiles" type="Node2D" parent="RiverPanel/River"]
+[node name="RiverMiles" type="Node2D" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River"]
 unique_name_in_owner = true
 
-[node name="Mile1" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile1" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 64, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile1"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile1"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile1"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile1"]
 position = Vector2( 0, 32 )
 
-[node name="Mile2" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile2" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 128, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile2"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile2"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile2"]
 position = Vector2( 0, 32 )
 
-[node name="Mile3" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile3" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 192, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile3"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile3"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile3"]
 position = Vector2( 0, 32 )
 
-[node name="Mile4" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile4" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 256, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile4"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile4"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile4"]
 position = Vector2( 0, 32 )
 
-[node name="Mile5" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile5" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 320, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile5"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile5"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile5"]
 position = Vector2( 0, 32 )
 
-[node name="Mile6" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile6" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 384, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile6"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile6"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile6"]
 position = Vector2( 0, 32 )
 
-[node name="Mile7" type="Sprite" parent="RiverPanel/River/RiverMiles"]
+[node name="Mile7" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles"]
 position = Vector2( 448, -9 )
 texture = ExtResource( 14 )
 
-[node name="Item" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile7"]
+[node name="Item" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile7"]
 position = Vector2( 0, -15 )
 
-[node name="Cap" type="Sprite" parent="RiverPanel/River/RiverMiles/Mile7"]
+[node name="Cap" type="Sprite" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/RiverMiles/Mile7"]
 position = Vector2( 0, 32 )
 
-[node name="Boat" type="Node2D" parent="RiverPanel/River"]
+[node name="Boat" type="Node2D" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River"]
 
-[node name="Miniboat" type="TextureRect" parent="RiverPanel/River/Boat"]
+[node name="Miniboat" type="TextureRect" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/River/Boat"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -254,7 +293,7 @@ margin_right = 16.0
 margin_bottom = 22.0
 texture = ExtResource( 13 )
 
-[node name="GoButton" type="TextureButton" parent="RiverPanel"]
+[node name="GoButton" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat/RiverPanel"]
 unique_name_in_owner = true
 margin_left = 439.0
 margin_top = -10.0
@@ -265,18 +304,18 @@ texture_normal = ExtResource( 17 )
 texture_pressed = ExtResource( 16 )
 texture_disabled = ExtResource( 16 )
 
-[node name="MilePanel" type="Panel" parent="RiverPanel"]
+[node name="MilePanel" type="Panel" parent="BoatPath/BoatPathFollow/Boat/RiverPanel"]
 margin_left = 224.0
 margin_top = 96.0
 margin_right = 352.0
 margin_bottom = 128.0
 custom_styles/panel = ExtResource( 18 )
 
-[node name="MarginContainer" type="MarginContainer" parent="RiverPanel/MilePanel"]
+[node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/MilePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="MileLabel" type="Label" parent="RiverPanel/MilePanel/MarginContainer"]
+[node name="MileLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/RiverPanel/MilePanel/MarginContainer"]
 unique_name_in_owner = true
 margin_top = 1.0
 margin_right = 128.0
@@ -287,21 +326,21 @@ custom_fonts/font = SubResource( 10 )
 text = "1m"
 align = 1
 
-[node name="GameOverPanel" type="Panel" parent="."]
+[node name="GameOverPanel" type="Panel" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
 visible = false
-margin_left = 64.0
-margin_top = 288.0
-margin_right = 512.0
-margin_bottom = 512.0
+margin_left = -226.0
+margin_top = -319.998
+margin_right = 222.0
+margin_bottom = -95.9976
 custom_styles/panel = ExtResource( 18 )
 
-[node name="MarginContainer" type="VBoxContainer" parent="GameOverPanel"]
+[node name="MarginContainer" type="VBoxContainer" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
 
-[node name="GameOverLabel" type="Label" parent="GameOverPanel/MarginContainer"]
+[node name="GameOverLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
 margin_top = 21.0
 margin_right = 448.0
 margin_bottom = 60.0
@@ -312,7 +351,7 @@ text = "Game Over!"
 align = 1
 valign = 1
 
-[node name="ReasonLabel" type="Label" parent="GameOverPanel/MarginContainer"]
+[node name="ReasonLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
 unique_name_in_owner = true
 margin_top = 64.0
 margin_right = 448.0
@@ -324,7 +363,7 @@ text = "Not enough wood!"
 align = 1
 valign = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="GameOverPanel/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
 margin_top = 107.0
 margin_right = 448.0
 margin_bottom = 202.0
@@ -332,7 +371,7 @@ custom_constants/margin_right = 150
 custom_constants/margin_top = 50
 custom_constants/margin_left = 150
 
-[node name="Button" type="Button" parent="GameOverPanel/MarginContainer/MarginContainer"]
+[node name="Button" type="Button" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer/MarginContainer"]
 margin_left = 150.0
 margin_top = 50.0
 margin_right = 298.0
@@ -340,5 +379,5 @@ margin_bottom = 95.0
 custom_fonts/font = ExtResource( 8 )
 text = "Restart"
 
-[connection signal="pressed" from="RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
-[connection signal="pressed" from="GameOverPanel/MarginContainer/MarginContainer/Button" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer/MarginContainer/Button" to="." method="_on_restart_pressed"]

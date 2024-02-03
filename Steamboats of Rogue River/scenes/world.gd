@@ -20,6 +20,7 @@ onready var _dock_item_container: GridContainer = $"%DockItemContainer"
 onready var _boat_cap_container: GridContainer = $"%BoatCapContainer"
 onready var _boat_item_container: GridContainer = $"%BoatItemContainer"
 onready var _boat_wheel: AnimatedSprite = $"%BoatWheel"
+onready var _boat_path_follow: PathFollow2D = $"%BoatPathFollow"
 onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
 onready var _game_over_panel: Panel = $"%GameOverPanel"
@@ -74,29 +75,20 @@ func _init_dock() -> void:
 	_mile_label.text = str(_dock_id) + "m"
 		
 func _process(_delta) -> void:
-	if _arriving and _dock.position.x == 0:
+	if not _moving: return
+	_boat_path_follow.offset += 8
+	print(int(_boat_path_follow.offset / 8))
+	if int(_boat_path_follow.offset / 8) == 281:
 		_moving = false
 		_arriving = false
-		_distance = 0
 		_boat_wheel.stop()
 		_auto_remove_items()
 		_reset_miles()
 		_check_game_over()
-	if not _moving: return
-	if _dock.position.x >= -576 * 2:
-		_dock.position.x -= 4
-		if _distance == 0:
-			_dock.position.y -=1
-		if _distance == 6:
-			_dock.position.y += 1
-	else:
-		_dock.position.x = -576
-		_distance += 1
-		if _distance == 6 and _arriving == false:
-			_dock.position.x = 576 * 2
-			_arriving = true
-			_dock_id += 1
-			_init_dock()
+	elif int(_boat_path_follow.offset / 8) == 1:
+		_arriving = true
+		_dock_id += 1
+		_init_dock()
 	for mile in _river_miles.get_children():
 		if mile.position.x > 0:
 			mile.position.x -= 0.05
