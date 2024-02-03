@@ -13,7 +13,10 @@ var _boat_items: Cargo = Cargo.new(6)
 var _moving: bool = false
 var _arriving: bool = false
 var _distance: int = 0
-var _dock_id: int = 0
+var _dock_id: int = -1
+var _boat_tween: SceneTreeTween = null
+var _wheel_tween: SceneTreeTween = null
+var _mile_tween: SceneTreeTween = null
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -40,6 +43,7 @@ func _ready() -> void:
 	_boat_items.add_new_item("wood", 0, 0, -1)
 
 func _init_dock() -> void:
+	_dock_id += 1
 	_dock_caps.clear()
 	_dock_items.clear()
 	var value: int = 0
@@ -73,25 +77,16 @@ func _init_dock() -> void:
 			_dock_items.add_new_item(item, _dock_id, value, value)
 	_update_river_miles()
 	_mile_label.text = str(_dock_id) + "m"
-		
-func _process(_delta) -> void:
-	if not _moving: return
-	_boat_path_follow.offset += 8
-	print(int(_boat_path_follow.offset / 8))
-	if int(_boat_path_follow.offset / 8) == 281:
-		_moving = false
-		_arriving = false
-		_boat_wheel.stop()
-		_auto_remove_items()
-		_reset_miles()
-		_check_game_over()
-	elif int(_boat_path_follow.offset / 8) == 1:
-		_arriving = true
-		_dock_id += 1
-		_init_dock()
-	for mile in _river_miles.get_children():
-		if mile.position.x > 0:
-			mile.position.x -= 0.05
+
+func _start_arriving() -> void:
+	_arriving = true
+
+func _arrive() -> void:
+	_moving = false
+	_arriving = false
+	_auto_remove_items()
+	_reset_miles()
+	_check_game_over()
 
 func _check_game_over() -> void:
 	if not _boat_caps.is_full() and _balance + _dock_caps.get_item(0).get_price() < 0:
@@ -222,6 +217,70 @@ func _on_go_button_pressed() -> void:
 	_update_container(_dock_item_container)
 	_update_container(_boat_cap_container)
 	_update_container(_boat_item_container)
+	
+	_boat_tween = get_tree().create_tween()
+# warning-ignore:return_value_discarded
+	_boat_tween.set_ease(Tween.EASE_IN_OUT)
+# warning-ignore:return_value_discarded
+	_boat_tween.set_trans(Tween.TRANS_SINE)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.875, 8)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(_boat_wheel, "stop")
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_interval(2)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(_boat_wheel, "play")
+# warning-ignore:return_value_discarded
+	_boat_tween.set_ease(Tween.EASE_IN)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 1, 2)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0, 0)
+# warning-ignore:return_value_discarded
+	_boat_tween.set_ease(Tween.EASE_OUT)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(self, "_start_arriving")
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(self, "_init_dock")
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.5, 10)
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(_boat_wheel, "stop")
+# warning-ignore:return_value_discarded
+	_boat_tween.tween_callback(self, "_arrive")
+	
+	_mile_tween = get_tree().create_tween()
+# warning-ignore:return_value_discarded
+	_mile_tween.set_ease(Tween.EASE_IN_OUT)
+# warning-ignore:return_value_discarded
+	_mile_tween.set_trans(Tween.TRANS_SINE)
+# warning-ignore:return_value_discarded
+	_mile_tween.tween_property(_river_miles, "position:x", -28, 8)
+# warning-ignore:return_value_discarded
+	_mile_tween.tween_interval(2)
+# warning-ignore:return_value_discarded
+	_mile_tween.tween_property(_river_miles, "position:x", -64, 12)
+# warning-ignore:return_value_discarded
+	_mile_tween.tween_property(_river_miles, "position:x", 0, 0)
+	
+	_wheel_tween = get_tree().create_tween()
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_interval(5)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_interval(2)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_interval(9)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")

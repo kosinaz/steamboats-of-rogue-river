@@ -136,7 +136,6 @@ rotate = false
 cubic_interp = false
 
 [node name="Boat" type="Sprite" parent="BoatPath/BoatPathFollow"]
-position = Vector2( -11.6072, -0.00665283 )
 rotation = 0.000574823
 scale = Vector2( 1.93457, 0.981851 )
 texture = ExtResource( 2 )
