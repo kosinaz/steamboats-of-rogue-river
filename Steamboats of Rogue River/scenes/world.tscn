@@ -164,7 +164,8 @@ columns = 2
 unique_name_in_owner = true
 position = Vector2( -98, 176 )
 frames = SubResource( 9 )
-speed_scale = 2.0
+speed_scale = 0.0
+playing = true
 
 [node name="BoatWindow" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 position = Vector2( -51, -28 )
@@ -388,5 +389,75 @@ margin_bottom = 95.0
 custom_fonts/font = ExtResource( 8 )
 text = "Restart"
 
+[node name="EncounterPanel" type="Panel" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+margin_left = -226.0
+margin_top = -512.0
+margin_right = 222.0
+margin_bottom = -109.0
+custom_styles/panel = ExtResource( 18 )
+
+[node name="MarginContainer" type="VBoxContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="GreetingsLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
+margin_top = 24.0
+margin_right = 448.0
+margin_bottom = 231.0
+theme = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "Ahoy Matey!
+
+I ran out of wood.
+Could you help me out?
+I'd pay double!"
+align = 1
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
+margin_top = 235.0
+margin_right = 448.0
+margin_bottom = 330.0
+custom_constants/margin_right = 100
+custom_constants/margin_top = 50
+custom_constants/margin_left = 100
+
+[node name="Button" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer"]
+margin_left = 100.0
+margin_top = 50.0
+margin_right = 348.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 8 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/Button"]
+margin_top = 1.0
+margin_right = 248.0
+margin_bottom = 45.0
+mouse_filter = 1
+custom_fonts/normal_font = ExtResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[center]Yes (-1[img]res://assets/wood.png[/img] +$2)"
+text = "Yes (-1 +$2)"
+
+[node name="MarginContainer2" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
+margin_top = 334.0
+margin_right = 448.0
+margin_bottom = 379.0
+custom_constants/margin_right = 150
+custom_constants/margin_left = 150
+
+[node name="Button" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2"]
+margin_left = 150.0
+margin_right = 298.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 8 )
+text = "No"
+
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer/MarginContainer/Button" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/Button" to="." method="_on_give_wood_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2/Button" to="." method="_on_no_pressed"]

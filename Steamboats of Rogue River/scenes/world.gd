@@ -28,6 +28,7 @@ onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
 onready var _game_over_panel: Panel = $"%GameOverPanel"
 onready var _reason_label: Label = $"%ReasonLabel"
+onready var _encounter_panel: Panel = $"%EncounterPanel"
 onready var _go_button: TextureButton = $"%GoButton"
 
 # Called when the node enters the scene tree for the first time.
@@ -211,7 +212,6 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
 	_moving = true
-	_boat_wheel.play()
 	_update_river_miles()
 	_update_container(_dock_cap_container)
 	_update_container(_dock_item_container)
@@ -226,11 +226,29 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.875, 8)
 # warning-ignore:return_value_discarded
-	_boat_tween.tween_callback(_boat_wheel, "stop")
+	_boat_tween.tween_callback(self, "_show_encounter")
+
+	_mile_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
-	_boat_tween.tween_interval(2)
+	_mile_tween.set_ease(Tween.EASE_IN_OUT)
 # warning-ignore:return_value_discarded
-	_boat_tween.tween_callback(_boat_wheel, "play")
+	_mile_tween.set_trans(Tween.TRANS_SINE)
+# warning-ignore:return_value_discarded
+	_mile_tween.tween_property(_river_miles, "position:x", -28, 8)
+	
+	_wheel_tween = get_tree().create_tween()
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_interval(5.5)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
+
+
+func _continue_the_ride() -> void:
+	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_boat_tween.set_ease(Tween.EASE_IN)
 # warning-ignore:return_value_discarded
@@ -246,19 +264,9 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.5, 10)
 # warning-ignore:return_value_discarded
-	_boat_tween.tween_callback(_boat_wheel, "stop")
-# warning-ignore:return_value_discarded
 	_boat_tween.tween_callback(self, "_arrive")
 	
 	_mile_tween = get_tree().create_tween()
-# warning-ignore:return_value_discarded
-	_mile_tween.set_ease(Tween.EASE_IN_OUT)
-# warning-ignore:return_value_discarded
-	_mile_tween.set_trans(Tween.TRANS_SINE)
-# warning-ignore:return_value_discarded
-	_mile_tween.tween_property(_river_miles, "position:x", -28, 8)
-# warning-ignore:return_value_discarded
-	_mile_tween.tween_interval(2)
 # warning-ignore:return_value_discarded
 	_mile_tween.tween_property(_river_miles, "position:x", -64, 12)
 # warning-ignore:return_value_discarded
@@ -266,25 +274,32 @@ func _on_go_button_pressed() -> void:
 	
 	_wheel_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
-# warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(5)
-# warning-ignore:return_value_discarded
-	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
-# warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(2)
-# warning-ignore:return_value_discarded
-	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
-# warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(9)
+	_wheel_tween.tween_interval(9.5)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")
 
-func _on_restart_pressed():
+func _show_encounter() -> void:
+	_encounter_panel.show()
+
+func _on_restart_pressed() -> void:
 # warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
+
+func _on_give_wood_pressed() -> void:
+	_encounter_panel.hide()
+	_update_balance(2)
+	var items: Array = _boat_items.get_items()
+	for i in range(items.size()):
+		if items[i].get_name() == "wood":
+			_boat_items.remove(i)
+			break
+	_continue_the_ride()
+
+func _on_no_pressed() -> void:
+	_encounter_panel.hide()
+	_continue_the_ride()
