@@ -119,6 +119,7 @@ custom_constants/hseparation = 16
 columns = 3
 
 [node name="Boat2" type="Sprite" parent="Dock"]
+unique_name_in_owner = true
 position = Vector2( 2016, 475 )
 texture = ExtResource( 9 )
 
@@ -403,54 +404,62 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
 
-[node name="GreetingsLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 24.0
+[node name="MarginContainer3" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
+margin_top = 108.0
 margin_right = 448.0
-margin_bottom = 231.0
+margin_bottom = 147.0
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="EncounterLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer3"]
+unique_name_in_owner = true
+margin_left = 20.0
+margin_right = 428.0
+margin_bottom = 39.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 8 )
-text = "Ahoy Matey!
-
-I ran out of wood.
-Could you help me out?
-I'd pay double!"
+text = "Calm waters, no issues. We are ready to continue our ride!"
 align = 1
 valign = 1
+autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 235.0
+margin_top = 151.0
 margin_right = 448.0
-margin_bottom = 330.0
+margin_bottom = 246.0
 custom_constants/margin_right = 100
 custom_constants/margin_top = 50
 custom_constants/margin_left = 100
 
-[node name="Button" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer"]
+[node name="EncounterButton1" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer"]
+unique_name_in_owner = true
 margin_left = 100.0
 margin_top = 50.0
 margin_right = 348.0
 margin_bottom = 95.0
 custom_fonts/font = ExtResource( 8 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/Button"]
+[node name="EncounterButtonLabel" type="RichTextLabel" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/EncounterButton1"]
+unique_name_in_owner = true
 margin_top = 1.0
 margin_right = 248.0
 margin_bottom = 45.0
 mouse_filter = 1
 custom_fonts/normal_font = ExtResource( 8 )
 bbcode_enabled = true
-bbcode_text = "[center]Yes (-1[img]res://assets/wood.png[/img] +$2)"
-text = "Yes (-1 +$2)"
+bbcode_text = "[center]Let's go"
+text = "Let's go"
 
 [node name="MarginContainer2" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 334.0
+margin_top = 250.0
 margin_right = 448.0
-margin_bottom = 379.0
+margin_bottom = 295.0
 custom_constants/margin_right = 150
 custom_constants/margin_left = 150
 
-[node name="Button" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2"]
+[node name="EncounterButton2" type="Button" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2"]
+unique_name_in_owner = true
 margin_left = 150.0
 margin_right = 298.0
 margin_bottom = 45.0
@@ -459,5 +468,5 @@ text = "No"
 
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer/MarginContainer/Button" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/Button" to="." method="_on_give_wood_pressed"]
-[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2/Button" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/EncounterButton1" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2/EncounterButton2" to="." method="_on_no_pressed"]

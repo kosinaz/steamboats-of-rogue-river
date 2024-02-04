@@ -27,6 +27,10 @@ func remove(id: int) -> void:
 	_items.remove(id)
 	emit_signal("updated")
 
+func erase(item: Item) -> void:
+	_items.erase(item)
+	emit_signal("updated")
+
 func get_item(i: int) -> Item:
 	if _items.size() > i:
 		return _items[i]

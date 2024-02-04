@@ -17,6 +17,8 @@ var _dock_id: int = -1
 var _boat_tween: SceneTreeTween = null
 var _wheel_tween: SceneTreeTween = null
 var _mile_tween: SceneTreeTween = null
+var _encounter_id: int = 0
+var _item_to_erase: Item = null
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -29,7 +31,12 @@ onready var _mile_label: Label = $"%MileLabel"
 onready var _game_over_panel: Panel = $"%GameOverPanel"
 onready var _reason_label: Label = $"%ReasonLabel"
 onready var _encounter_panel: Panel = $"%EncounterPanel"
+onready var _encounter_label: Label = $"%EncounterLabel"
+onready var _boat2: Sprite = $"%Boat2"
 onready var _go_button: TextureButton = $"%GoButton"
+onready var _encounter_button1: Button = $"%EncounterButton1"
+onready var _encounter_button_label: RichTextLabel = $"%EncounterButtonLabel"
+onready var _encounter_button2: Button = $"%EncounterButton2"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -217,6 +224,7 @@ func _on_go_button_pressed() -> void:
 	_update_container(_dock_item_container)
 	_update_container(_boat_cap_container)
 	_update_container(_boat_item_container)
+	_init_encounter()
 	
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
@@ -262,13 +270,13 @@ func _continue_the_ride() -> void:
 # warning-ignore:return_value_discarded
 	_boat_tween.tween_callback(self, "_init_dock")
 # warning-ignore:return_value_discarded
-	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.5, 10)
+	_boat_tween.tween_property(_boat_path_follow, "unit_offset", 0.5, 9)
 # warning-ignore:return_value_discarded
 	_boat_tween.tween_callback(self, "_arrive")
 	
 	_mile_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
-	_mile_tween.tween_property(_river_miles, "position:x", -64, 12)
+	_mile_tween.tween_property(_river_miles, "position:x", -64, 11)
 # warning-ignore:return_value_discarded
 	_mile_tween.tween_property(_river_miles, "position:x", 0, 0)
 	
@@ -276,12 +284,71 @@ func _continue_the_ride() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(9.5)
+	_wheel_tween.tween_interval(8.5)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")
+
+func _init_encounter() -> void:
+	_encounter_label.text = "Calm waters, no issues. We are ready to continue our ride!"
+	_encounter_button_label.bbcode_text = "[center]Let's go"
+	_item_to_erase = null
+	_boat2.hide()
+	_encounter_button2.hide()
+	for item in _boat_items.get_items():
+		match item.get_name():
+			"wood":
+				if _rng.randi_range(1, 10) == 1:
+					_boat2.show()
+					_encounter_button2.show()
+					_encounter_label.text = "Ahoy Matey! I ran out of wood. Could you help me out? I'd pay double!"
+					_encounter_button_label.bbcode_text = "[center]Yes (-1[img]res://assets/wood.png[/img] +$2)"
+					_item_to_erase = item
+					break
+			"barrel":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "One of our barrels has fallen over due to these crushing waves and fell into the water! Only if we had some spare ropes!"
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/barrel.png[/img])"
+					_item_to_erase = item
+					break
+			"box":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "This doubledecker rain has melted away one of our thin paper boxes! Some wooden crates would have sure helped here."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/box.png[/img])"
+					_item_to_erase = item
+					break
+			"hay":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "The high wind has blown down our hay! Next time some good old tarp will surely take care of it."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hay.png[/img])"
+					_item_to_erase = item
+					break
+			"hen":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "A majestic bald eagle has snatched away one of our hens. We'll need to put them behind bars."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hen.png[/img])"
+					_item_to_erase = item
+					break
+			"duck":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "A duck has escaped the cage and flew away. We'll need some iron bars on these cages next time."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/duck.png[/img])"
+					_item_to_erase = item
+					break
+			"goat":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "This musical goat has ate the sheets and now he can't stop singing. Nobody will pay for him anymore. I wish we bought some hay for him instead."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/goat.png[/img])"
+					_item_to_erase = item
+					break
+			"cow":
+				if _rng.randi_range(1, 5) == 1:
+					_encounter_label.text = "The cow was mooing so hard that now she became as thin as a rake. Next time we need to bring some hay for her."
+					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/cow.png[/img])"
+					_item_to_erase = item
+					break
 
 func _show_encounter() -> void:
 	_encounter_panel.show()
@@ -290,14 +357,12 @@ func _on_restart_pressed() -> void:
 # warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
 
-func _on_give_wood_pressed() -> void:
+func _on_yes_pressed() -> void:
 	_encounter_panel.hide()
-	_update_balance(2)
-	var items: Array = _boat_items.get_items()
-	for i in range(items.size()):
-		if items[i].get_name() == "wood":
-			_boat_items.remove(i)
-			break
+	if not _item_to_erase == null:
+		if _item_to_erase.get_name() == "wood":
+			_update_balance(2)
+		_boat_items.erase(_item_to_erase)
 	_continue_the_ride()
 
 func _on_no_pressed() -> void:
