@@ -56,8 +56,8 @@ func _init_dock() -> void:
 				_free_caps.erase(_boat_caps.get_item(0).get_name())
 		value = _rng.randi_range(1, 3)
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
-		value += _rng.randi_range(1, 3)
-		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
+		value = _rng.randi_range(4, 6)
+		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2 + 1)
 	for _i in range(_rng.randi_range(0, 4)):
 		_dock_items.add_new_item("wood", 0, 0, -1)
 	if _free_items.size() < 2:
@@ -66,16 +66,16 @@ func _init_dock() -> void:
 		for item in _boat_items.get_items():
 			_free_items.erase(item.get_name())
 	var item: String = ""
-	value = _rng.randi_range(1, 3)
+	value = _rng.randi_range(1, 2)
 	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
 		for _i in range(1, 5):
 			_dock_items.add_new_item(item, _dock_id, value, value)
-	value += _rng.randi_range(1, 2)
+	value += _rng.randi_range(1, 3)
 	if _river_miles.get_child(value).get_node("Item").texture == null:
 		item = _free_items.pop_front()
-		for _i in range(1, 5):
-			_dock_items.add_new_item(item, _dock_id, value, value)
+		for _i in range(1, 3):
+			_dock_items.add_new_item(item, _dock_id, value, value + (1 if value > 3 else 0))
 	_update_river_miles()
 	_mile_label.text = str(_dock_id) + "m"
 

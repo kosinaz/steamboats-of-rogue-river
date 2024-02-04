@@ -129,7 +129,7 @@ curve = SubResource( 11 )
 
 [node name="BoatPathFollow" type="PathFollow2D" parent="BoatPath"]
 unique_name_in_owner = true
-position = Vector2( -1311.93, 617.866 )
+position = Vector2( -1334.69, 617.866 )
 rotation = -0.000574823
 offset = 4486.17
 rotate = false
