@@ -23,6 +23,7 @@ var _available_upgrades: Array = ["ropes", "crate", "haybasket", "cage", "tarp"]
 var _bought_upgrades: Array = []
 var _bought_upgrades_for: Array = []
 var _upgrade_to_buy: String = ""
+var _wood_deal: bool = false
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -338,11 +339,18 @@ func _init_encounter() -> void:
 	_encounter_button2.hide()
 	if _rng.randi_range(1, 2) == 1:
 		return
+	if _rng.randi_range(1, 2) == 1 and _boat_items.get_items().size() < 5:
+		_wood_deal = true
+		_boat2.show()
+		_encounter_button2.show()
+		_encounter_label.text = "Ahoy Matey! Care to buy some wood? 2 piles for only $1!"
+		_encounter_button_label.bbcode_text = "[center]Yes (-$1 +2[img]res://assets/wood.png[/img])"
+		return
 	if _rng.randi_range(1, 2) == 1 and _balance > 3 and _available_upgrades.size() > 0:
 		_upgrade_to_buy = _available_upgrades[_rng.randi_range(0, _available_upgrades.size() - 1)]
 		_boat2.show()
 		_encounter_button2.show()
-		_encounter_label.text = "Ahoy Matey! We have a " + _upgrade_to_buy + " which we are willing to sell to you for only $4. Deal?"
+		_encounter_label.text = "Ahoy Matey! We have " + _upgrade_to_buy + " which we are willing to sell to you for only $4. Deal?"
 		_encounter_button_label.bbcode_text = "[center]Yes (-$4 +[img]res://assets/" + _upgrade_to_buy + ".png[/img])"
 		return
 	var items = _boat_items.get_items()
@@ -417,6 +425,10 @@ func _on_yes_pressed() -> void:
 	if not _upgrade_to_buy == "":
 		_update_balance(-4)
 		_buy_upgrade(_upgrade_to_buy)
+	if _wood_deal:
+		_update_balance(-1)
+		_boat_items.add_new_item("wood", 0, 0, -1)
+		_boat_items.add_new_item("wood", 0, 0, -1)
 	_continue_the_ride()
 
 func _on_no_pressed() -> void:
