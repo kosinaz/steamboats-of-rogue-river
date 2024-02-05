@@ -27,6 +27,7 @@ var _wood_deal: bool = false
 var _current_damage: TextureButton = null
 var _full_repair: bool = false
 var _full_damage: bool = false
+var _records: ConfigFile = ConfigFile.new()
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -46,6 +47,8 @@ onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
 onready var _game_over_panel: Panel = $"%GameOverPanel"
 onready var _reason_label: Label = $"%ReasonLabel"
+onready var _current_mile_label: Label = $"%CurrentMileLabel"
+onready var _record_mile_label: Label = $"%RecordMileLabel"
 onready var _encounter_panel: Panel = $"%EncounterPanel"
 onready var _encounter_label: Label = $"%EncounterLabel"
 onready var _boat2: Sprite = $"%Boat2"
@@ -143,6 +146,12 @@ func _check_game_over() -> void:
 func _game_over(text: String) -> void:
 	_game_over_panel.show()
 	_reason_label.text = text
+	_current_mile_label.text = str(_dock_id) + " miles"
+	var record = _records.get_value("mile", "record", 0)
+	if int(record) < _dock_id:
+		_records.set_value("mile", "record", _dock_id)
+		record = _records.get_value("mile", "record")
+	_record_mile_label.text =  str(record) + " miles"
 	
 func _auto_remove_items() -> void:
 	if _boat_caps.get_item(0).get_destination() == _dock_id:
@@ -354,6 +363,7 @@ func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood") and not _moving
 
 func _init_encounter() -> void:
+	_item_to_erase = null
 	_encounter_label.text = "Calm waters, no issues. We are ready to continue our ride!"
 	_encounter_button_label.bbcode_text = "[center]Let's go"
 	_boat2.hide()
@@ -387,8 +397,10 @@ func _init_encounter() -> void:
 		var items = _boat_items.get_items()
 		var risky_items = []
 		for item in items:
-			if not _bought_upgrades_for.has(item.get_name()):
+			if not _bought_upgrades_for.has(item.get_name()) and item.get_name() != "wood":
 				risky_items.append(item)
+		if risky_items.size() == 0:
+			return
 		risky_items.shuffle()
 		_item_to_erase = risky_items[0]
 		match risky_items[0].get_name():
@@ -424,7 +436,6 @@ func _init_encounter() -> void:
 	_full_damage = true
 	_encounter_label.text = "Shiver me timbers! The water is too shallow, we are wrecked! I hope we can reach the next dock!"
 	_encounter_button_label.bbcode_text = "[center]Ok"
-	
 
 func _show_encounter() -> void:
 	if _current_damage != null and _current_damage.visible:
