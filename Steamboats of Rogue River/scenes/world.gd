@@ -292,11 +292,11 @@ func _on_go_button_pressed() -> void:
 	_update_container(_dock_item_container)
 	_update_container(_boat_cap_container)
 	_update_container(_boat_item_container)
-	_init_encounter()
 	for item in _boat_items.get_items():
 		if item.get_name() == "wood":
 			_boat_items.erase(item)
 			break
+	_init_encounter()
 	
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
