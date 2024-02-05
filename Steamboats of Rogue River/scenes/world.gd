@@ -24,6 +24,9 @@ var _bought_upgrades: Array = []
 var _bought_upgrades_for: Array = []
 var _upgrade_to_buy: String = ""
 var _wood_deal: bool = false
+var _current_damage: TextureButton = null
+var _full_repair: bool = false
+var _full_damage: bool = false
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -35,6 +38,9 @@ onready var _crate: Sprite = $"%Crate"
 onready var _haybasket: Sprite = $"%Haybasket"
 onready var _ropes: Sprite = $"%Ropes"
 onready var _tarp: Sprite = $"%Tarp"
+onready var _damage1: TextureButton = $"%Damage1"
+onready var _damage2: TextureButton = $"%Damage2"
+onready var _damage3: TextureButton = $"%Damage3"
 onready var _boat_path_follow: PathFollow2D = $"%BoatPathFollow"
 onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
@@ -71,7 +77,7 @@ func _init_dock() -> void:
 			_free_caps.shuffle()
 			if _boat_caps.is_full():
 				_free_caps.erase(_boat_caps.get_item(0).get_name())
-		value = _rng.randi_range(1, 3)
+		value = _rng.randi_range(1, 2)
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
 		value = _rng.randi_range(4, 6)
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2 + 1)
@@ -107,6 +113,20 @@ func _arrive() -> void:
 	_auto_remove_items()
 	_reset_miles()
 	_check_game_over()
+	_init_repairs()
+	_go_button.disabled = not _is_ready_to_go()
+
+func _init_repairs() -> void:
+	_damage1.disabled = true
+	_damage2.disabled = true
+	_damage3.disabled = true
+	if _moving: return
+	for item in _boat_items.get_items():
+		if item.get_name() == "wood":
+			_damage1.disabled = not _damage1.visible
+			_damage2.disabled = not _damage2.visible
+			_damage3.disabled = not _damage3.visible
+			return
 
 func _check_game_over() -> void:
 	if not _boat_caps.is_full() and _balance + _dock_caps.get_item(0).get_price() < 0:
@@ -175,6 +195,7 @@ func _update_container(container: GridContainer) -> void:
 			items_buttons[i].texture_normal = load("res://assets/no_item.png")
 			items_buttons[i].get_node("%ValuePanel").hide()
 	_go_button.disabled = not _is_ready_to_go()
+	_init_repairs()
 
 func _update_river_miles() -> void:
 	for mile in _river_miles.get_children():
@@ -252,6 +273,7 @@ func _buy_upgrade(upgrade_name: String) -> void:
 		"tarp": 
 			_tarp.show()
 			_bought_upgrades_for.append("hay")
+	_update_container(_boat_item_container)
 
 func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
@@ -334,82 +356,83 @@ func _is_ready_to_go() -> bool:
 func _init_encounter() -> void:
 	_encounter_label.text = "Calm waters, no issues. We are ready to continue our ride!"
 	_encounter_button_label.bbcode_text = "[center]Let's go"
-	_item_to_erase = null
 	_boat2.hide()
 	_encounter_button2.hide()
-	if _rng.randi_range(1, 2) == 1:
+	var encounter = _rng.randi_range(0, 15 + _dock_id)
+	if encounter < 5:
+		if _boat_items.get_items().size() < 5 and _balance > 0:
+			_wood_deal = true
+			_boat2.show()
+			_encounter_button2.show()
+			_encounter_label.text = "Ahoy Matey! Care to buy some wood? 2 piles for only $1!"
+			_encounter_button_label.bbcode_text = "[center]Yes (-$1 +2[img]res://assets/wood.png[/img])"
+			return
+		for item in _boat_items.get_items():
+			if item.get_name() == "wood":
+				_boat2.show()
+				_encounter_button2.show()
+				_encounter_label.text = "Ahoy Matey! I ran out of wood. Could you help me out? I'd pay double!"
+				_encounter_button_label.bbcode_text = "[center]Yes (-1[img]res://assets/wood.png[/img] +$2)"
+				_item_to_erase = item
+				return
 		return
-	if _rng.randi_range(1, 2) == 1 and _boat_items.get_items().size() < 5:
-		_wood_deal = true
-		_boat2.show()
-		_encounter_button2.show()
-		_encounter_label.text = "Ahoy Matey! Care to buy some wood? 2 piles for only $1!"
-		_encounter_button_label.bbcode_text = "[center]Yes (-$1 +2[img]res://assets/wood.png[/img])"
-		return
-	if _rng.randi_range(1, 2) == 1 and _balance > 3 and _available_upgrades.size() > 0:
+	if encounter < 10 and _balance > 3 and _available_upgrades.size() > 0:
 		_upgrade_to_buy = _available_upgrades[_rng.randi_range(0, _available_upgrades.size() - 1)]
 		_boat2.show()
 		_encounter_button2.show()
 		_encounter_label.text = "Ahoy Matey! We have " + _upgrade_to_buy + " which we are willing to sell to you for only $4. Deal?"
 		_encounter_button_label.bbcode_text = "[center]Yes (-$4 +[img]res://assets/" + _upgrade_to_buy + ".png[/img])"
 		return
-	var items = _boat_items.get_items()
-	for item in items:
-		if _bought_upgrades_for.has(item.get_name()):
-			continue
-		match item.get_name():
-			"wood":
-				if _rng.randi_range(1, 10) == 1:
-					_boat2.show()
-					_encounter_button2.show()
-					_encounter_label.text = "Ahoy Matey! I ran out of wood. Could you help me out? I'd pay double!"
-					_encounter_button_label.bbcode_text = "[center]Yes (-1[img]res://assets/wood.png[/img] +$2)"
-					_item_to_erase = item
-					break
+	if encounter < 15 + int(_dock_id / 2.0):
+		var items = _boat_items.get_items()
+		var risky_items = []
+		for item in items:
+			if not _bought_upgrades_for.has(item.get_name()):
+				risky_items.append(item)
+		risky_items.shuffle()
+		_item_to_erase = risky_items[0]
+		match risky_items[0].get_name():
 			"barrel":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "One of our barrels has fallen over due to these crushing waves and fell into the water! Only if we had some spare ropes!"
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/barrel.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "One of our barrels has fallen over due to these crushing waves and fell into the water! Only if we had some spare ropes!"
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/barrel.png[/img])"
 			"box":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "This doubledecker rain has melted away one of our thin paper boxes! Some wooden crates would have sure helped here."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/box.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "This doubledecker rain has melted away one of our thin paper boxes! Some wooden crates would have sure helped here."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/box.png[/img])"
 			"hay":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "The high wind has blown down our hay! Next time some good old tarp will surely take care of it."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hay.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "The high wind has blown down our hay! Next time some good old tarp will surely take care of it."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hay.png[/img])"
 			"hen":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "A majestic bald eagle has snatched away one of our hens. We'll need to put them behind bars."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hen.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "A majestic bald eagle has snatched away one of our hens. We'll need to put them behind bars."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/hen.png[/img])"
 			"duck":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "A duck has escaped the cage and flew away. We'll need some iron bars on these cages next time."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/duck.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "A duck has escaped the cage and flew away. We'll need some iron bars on these cages next time."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/duck.png[/img])"
 			"goat":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "This musical goat has ate the sheets and now he can't stop singing. Nobody will pay for him anymore. I wish we bought some hay for him instead."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/goat.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "This musical goat has ate the sheets and now he can't stop singing. Nobody will pay for him anymore. I wish we bought some hay for him instead."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/goat.png[/img])"
 			"cow":
-				if _rng.randi_range(1, 5) == 1:
-					_encounter_label.text = "The cow was mooing so hard that now she became as thin as a rake. Next time we need to bring some hay for her."
-					_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/cow.png[/img])"
-					_item_to_erase = item
-					break
+				_encounter_label.text = "The cow was mooing so hard that now she became as thin as a rake. Next time we need to bring some hay for her."
+				_encounter_button_label.bbcode_text = "[center]Ok (-1[img]res://assets/cow.png[/img])"
+		return
+	if encounter < 30:
+		var damage = _rng.randi_range(0, 2)
+		var damages = [_damage1, _damage2, _damage3]
+		_current_damage = damages[damage]
+		_encounter_label.text = "Oh no, some floating debris damaged the boat! One more impact on this spot and we are sleeping with the fishes. Unless we fix it in the next dock."
+		_encounter_button_label.bbcode_text = "[center]Ok"
+		return
+	_full_damage = true
+	_encounter_label.text = "Shiver me timbers! The water is too shallow, we are wrecked! I hope we can reach the next dock!"
+	_encounter_button_label.bbcode_text = "[center]Ok"
+	
 
 func _show_encounter() -> void:
+	if _current_damage != null and _current_damage.visible:
+		_game_over("Oh no, some floating debris damaged the boat on the same spot as the last time. We are sinking!")
+		return
+	if _full_damage and (_damage1.visible or _damage2.visible or _damage3.visible):
+		_game_over("Oh no, the water is too a shallow, we are stranded!")
+		return
 	_encounter_panel.show()
 
 func _on_restart_pressed() -> void:
@@ -422,15 +445,40 @@ func _on_yes_pressed() -> void:
 		if _item_to_erase.get_name() == "wood":
 			_update_balance(2)
 		_boat_items.erase(_item_to_erase)
+		_item_to_erase = null
 	if not _upgrade_to_buy == "":
 		_update_balance(-4)
 		_buy_upgrade(_upgrade_to_buy)
+		_upgrade_to_buy = ""
 	if _wood_deal:
 		_update_balance(-1)
 		_boat_items.add_new_item("wood", 0, 0, -1)
 		_boat_items.add_new_item("wood", 0, 0, -1)
+		_wood_deal = false
+	if _current_damage != null:
+		_current_damage.show()
+		_current_damage = null
+	if _full_damage:
+		_damage1.show()
+		_damage2.show()
+		_damage3.show()
+		_full_damage = false
 	_continue_the_ride()
 
 func _on_no_pressed() -> void:
 	_encounter_panel.hide()
+	_item_to_erase = null
+	_upgrade_to_buy = ""
+	_wood_deal = false
 	_continue_the_ride()
+
+func _on_damage_pressed(id):
+	var damages = [_damage1, _damage2, _damage3]
+	damages[id].hide()
+	damages[id].disabled = true
+	for item in _boat_items.get_items():
+		if item.get_name() == "wood":
+			_boat_items.erase(item)
+			_init_repairs()
+			return
+	

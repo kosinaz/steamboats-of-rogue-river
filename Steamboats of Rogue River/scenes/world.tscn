@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -20,6 +20,12 @@
 [ext_resource path="res://resources/panel.tres" type="StyleBox" id=18]
 [ext_resource path="res://assets/tarpbig.png" type="Texture" id=19]
 [ext_resource path="res://assets/haybasket.png" type="Texture" id=20]
+[ext_resource path="res://assets/damage1.png" type="Texture" id=21]
+[ext_resource path="res://assets/damage2.png" type="Texture" id=22]
+[ext_resource path="res://assets/damage3.png" type="Texture" id=23]
+[ext_resource path="res://assets/damage3button.png" type="Texture" id=24]
+[ext_resource path="res://assets/damage2button.png" type="Texture" id=25]
+[ext_resource path="res://assets/damage1button.png" type="Texture" id=26]
 
 [sub_resource type="Curve2D" id=11]
 _data = {
@@ -195,6 +201,39 @@ unique_name_in_owner = true
 visible = false
 position = Vector2( -206.06, 116.992 )
 texture = ExtResource( 19 )
+
+[node name="Damage1" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+margin_left = 12.94
+margin_top = 191.992
+margin_right = 44.94
+margin_bottom = 223.992
+disabled = true
+texture_normal = ExtResource( 26 )
+texture_disabled = ExtResource( 21 )
+
+[node name="Damage2" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+margin_left = 71.94
+margin_top = 191.992
+margin_right = 103.94
+margin_bottom = 223.992
+disabled = true
+texture_normal = ExtResource( 25 )
+texture_disabled = ExtResource( 22 )
+
+[node name="Damage3" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+margin_left = 131.94
+margin_top = 191.992
+margin_right = 163.94
+margin_bottom = 223.992
+disabled = true
+texture_normal = ExtResource( 24 )
+texture_disabled = ExtResource( 23 )
 
 [node name="BoatWheel" type="AnimatedSprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
@@ -376,9 +415,9 @@ align = 1
 unique_name_in_owner = true
 visible = false
 margin_left = -226.0
-margin_top = -319.998
+margin_top = -485.0
 margin_right = 222.0
-margin_bottom = -95.9976
+margin_bottom = -96.0
 custom_styles/panel = ExtResource( 18 )
 
 [node name="MarginContainer" type="VBoxContainer" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel"]
@@ -387,9 +426,9 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="GameOverLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
-margin_top = 21.0
+margin_top = 104.0
 margin_right = 448.0
-margin_bottom = 60.0
+margin_bottom = 143.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 8 )
@@ -399,20 +438,21 @@ valign = 1
 
 [node name="ReasonLabel" type="Label" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
 unique_name_in_owner = true
-margin_top = 64.0
+margin_top = 147.0
 margin_right = 448.0
-margin_bottom = 103.0
+margin_bottom = 186.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "Not enough wood!"
 align = 1
 valign = 1
+autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer"]
-margin_top = 107.0
+margin_top = 190.0
 margin_right = 448.0
-margin_bottom = 202.0
+margin_bottom = 285.0
 custom_constants/margin_right = 150
 custom_constants/margin_top = 50
 custom_constants/margin_left = 150
@@ -501,6 +541,9 @@ margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "No"
 
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage1" to="." method="_on_damage_pressed" binds= [ 0 ]]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage2" to="." method="_on_damage_pressed" binds= [ 1 ]]
+[connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage3" to="." method="_on_damage_pressed" binds= [ 2 ]]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/RiverPanel/GoButton" to="." method="_on_go_button_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer/MarginContainer/Button" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/EncounterButton1" to="." method="_on_yes_pressed"]

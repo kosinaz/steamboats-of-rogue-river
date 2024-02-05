@@ -27,9 +27,11 @@ func remove(id: int) -> void:
 	_items.remove(id)
 	emit_signal("updated")
 
-func erase(item: Item) -> void:
-	_items.erase(item)
-	emit_signal("updated")
+func erase(item_to_erase: Item) -> void:
+	for i in _items.size():
+		if _items[i].get_name() == item_to_erase.get_name():
+			remove(i)
+			return
 
 func get_item(i: int) -> Item:
 	if _items.size() > i:
