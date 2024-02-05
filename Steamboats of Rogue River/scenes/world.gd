@@ -492,4 +492,3 @@ func _on_damage_pressed(id):
 			_boat_items.erase(item)
 			_init_repairs()
 			return
-	
