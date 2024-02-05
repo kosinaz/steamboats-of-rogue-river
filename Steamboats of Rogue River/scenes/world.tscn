@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -9,12 +9,17 @@
 [ext_resource path="res://assets/protest.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/boat2.png" type="Texture" id=9]
+[ext_resource path="res://assets/cage.png" type="Texture" id=10]
+[ext_resource path="res://assets/ropes.png" type="Texture" id=11]
+[ext_resource path="res://assets/crate.png" type="Texture" id=12]
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
 [ext_resource path="res://assets/button_pressed.png" type="Texture" id=16]
 [ext_resource path="res://assets/button.png" type="Texture" id=17]
 [ext_resource path="res://resources/panel.tres" type="StyleBox" id=18]
+[ext_resource path="res://assets/tarp.png" type="Texture" id=19]
+[ext_resource path="res://assets/haybasket.png" type="Texture" id=20]
 
 [sub_resource type="Curve2D" id=11]
 _data = {
@@ -160,6 +165,36 @@ margin_bottom = 144.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
+
+[node name="Cage" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( -144.06, -0.0088501 )
+texture = ExtResource( 10 )
+
+[node name="Crate" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( -144.06, 116.992 )
+texture = ExtResource( 12 )
+
+[node name="Haybasket" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( 15.94, 116.992 )
+texture = ExtResource( 20 )
+
+[node name="Ropes" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( -65.06, 98.9916 )
+texture = ExtResource( 11 )
+
+[node name="Tarp" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( -206.06, 116.992 )
+texture = ExtResource( 19 )
 
 [node name="BoatWheel" type="AnimatedSprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
@@ -415,7 +450,7 @@ custom_constants/margin_left = 20
 unique_name_in_owner = true
 margin_left = 20.0
 margin_right = 428.0
-margin_bottom = 39.0
+margin_bottom = 123.0
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 8 )

@@ -19,12 +19,20 @@ var _wheel_tween: SceneTreeTween = null
 var _mile_tween: SceneTreeTween = null
 var _encounter_id: int = 0
 var _item_to_erase: Item = null
+var _available_upgrades: Array = ["ropes", "crate", "haybasket", "cage", "tarp"]
+var _bought_upgrades: Array = []
+var _bought_upgrades_for: Array = []
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
 onready var _boat_cap_container: GridContainer = $"%BoatCapContainer"
 onready var _boat_item_container: GridContainer = $"%BoatItemContainer"
 onready var _boat_wheel: AnimatedSprite = $"%BoatWheel"
+onready var _cage: Sprite = $"%Cage"
+onready var _crate: Sprite = $"%Crate"
+onready var _haybasket: Sprite = $"%Haybasket"
+onready var _ropes: Sprite = $"%Ropes"
+onready var _tarp: Sprite = $"%Tarp"
 onready var _boat_path_follow: PathFollow2D = $"%BoatPathFollow"
 onready var _river_miles: Node = $"%RiverMiles"
 onready var _mile_label: Label = $"%MileLabel"
@@ -67,6 +75,8 @@ func _init_dock() -> void:
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2 + 1)
 	for _i in range(_rng.randi_range(0, 4)):
 		_dock_items.add_new_item("wood", 0, 0, -1)
+	if _rng.randi_range(1, 2) == 1 and _available_upgrades.size() > 0:
+		_dock_items.add_new_item(_available_upgrades[_rng.randi_range(0, _available_upgrades.size() - 1)], 0, 0, -5)
 	if _free_items.size() < 2:
 		_free_items = ITEMS.duplicate()
 		_free_items.shuffle()
@@ -158,7 +168,12 @@ func _update_container(container: GridContainer) -> void:
 	var items_buttons: Array = container.get_children()
 	for i in range(items_buttons.size()):
 		if items.get_item(i):
-			items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "big.png")
+			if _available_upgrades.has(items.get_item(i).get_name()):
+				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + ".png")
+			elif _bought_upgrades_for.has(items.get_item(i).get_name()):
+				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "upgraded.png")
+			else:
+				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "big.png")
 			items_buttons[i].get_node("%ValueLabel").text = str(items.get_item(i).get_price())
 			items_buttons[i].get_node("%ValuePanel").show()
 		else:
@@ -175,6 +190,7 @@ func _update_river_miles() -> void:
 		items = _boat_items.get_items() + _boat_caps.get_items()
 	for item in items:
 		if item.get_name() == "wood": continue
+		if _available_upgrades.has(item.get_name()): continue
 		var mile_id: int = item.get_destination() - _dock_id
 		if not _arriving:
 			mile_id -= 1
@@ -214,7 +230,30 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 	if item.get_price() < 0:
 		if multiplier == -1 and -item.get_price() > _balance: return
 		_update_balance(item.get_price() * -multiplier)
-	items.move(i, target)
+	if _available_upgrades.has(item.get_name()):
+		items.remove(i)
+		_available_upgrades.erase(item.get_name())
+		_bought_upgrades.append(item.get_name())
+		match item.get_name():
+			"cage": 
+				_cage.show()
+				_bought_upgrades_for.append("hen")
+				_bought_upgrades_for.append("duck")
+			"crate": 
+				_crate.show()
+				_bought_upgrades_for.append("box")
+			"haybasket": 
+				_haybasket.show()
+				_bought_upgrades_for.append("cow")
+				_bought_upgrades_for.append("goat")
+			"ropes": 
+				_ropes.show()
+				_bought_upgrades_for.append("barrel")
+			"tarp": 
+				_tarp.show()
+				_bought_upgrades_for.append("hay")
+	else:
+		items.move(i, target)
 
 func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
@@ -254,7 +293,6 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
-
 func _continue_the_ride() -> void:
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
@@ -289,7 +327,7 @@ func _continue_the_ride() -> void:
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
 func _is_ready_to_go() -> bool:
-	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood")
+	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood") and not _moving
 
 func _init_encounter() -> void:
 	_encounter_label.text = "Calm waters, no issues. We are ready to continue our ride!"
@@ -297,7 +335,12 @@ func _init_encounter() -> void:
 	_item_to_erase = null
 	_boat2.hide()
 	_encounter_button2.hide()
-	for item in _boat_items.get_items():
+	if _rng.randi_range(1, 2) == 1:
+		return
+	var items = _boat_items.get_items()
+	for item in items:
+		if _bought_upgrades_for.has(item.get_name()):
+			continue
 		match item.get_name():
 			"wood":
 				if _rng.randi_range(1, 10) == 1:
