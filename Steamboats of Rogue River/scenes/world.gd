@@ -22,6 +22,7 @@ var _item_to_erase: Item = null
 var _available_upgrades: Array = ["ropes", "crate", "haybasket", "cage", "tarp"]
 var _bought_upgrades: Array = []
 var _bought_upgrades_for: Array = []
+var _upgrade_to_buy: String = ""
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -73,7 +74,7 @@ func _init_dock() -> void:
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2)
 		value = _rng.randi_range(4, 6)
 		_dock_caps.add_new_item(_free_caps.pop_front(), _dock_id, value, -value * 2 + 1)
-	for _i in range(_rng.randi_range(0, 4)):
+	for _i in range(_rng.randi_range(0, 6)):
 		_dock_items.add_new_item("wood", 0, 0, -1)
 	if _rng.randi_range(1, 2) == 1 and _available_upgrades.size() > 0:
 		_dock_items.add_new_item(_available_upgrades[_rng.randi_range(0, _available_upgrades.size() - 1)], 0, 0, -5)
@@ -163,9 +164,7 @@ func _update_container(container: GridContainer) -> void:
 	var items_buttons: Array = container.get_children()
 	for i in range(items_buttons.size()):
 		if items.get_item(i):
-			if _available_upgrades.has(items.get_item(i).get_name()):
-				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + ".png")
-			elif _bought_upgrades_for.has(items.get_item(i).get_name()):
+			if _bought_upgrades_for.has(items.get_item(i).get_name()):
 				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "upgraded.png")
 			else:
 				items_buttons[i].texture_normal = load("res://assets/" + items.get_item(i).get_name() + "big.png")
@@ -227,28 +226,31 @@ func _on_item_button_pressed(container: GridContainer, i: int) -> void:
 		_update_balance(item.get_price() * -multiplier)
 	if _available_upgrades.has(item.get_name()):
 		items.remove(i)
-		_available_upgrades.erase(item.get_name())
-		_bought_upgrades.append(item.get_name())
-		match item.get_name():
-			"cage": 
-				_cage.show()
-				_bought_upgrades_for.append("hen")
-				_bought_upgrades_for.append("duck")
-			"crate": 
-				_crate.show()
-				_bought_upgrades_for.append("box")
-			"haybasket": 
-				_haybasket.show()
-				_bought_upgrades_for.append("cow")
-				_bought_upgrades_for.append("goat")
-			"ropes": 
-				_ropes.show()
-				_bought_upgrades_for.append("barrel")
-			"tarp": 
-				_tarp.show()
-				_bought_upgrades_for.append("hay")
+		_buy_upgrade(item.get_name())
 	else:
 		items.move(i, target)
+
+func _buy_upgrade(upgrade_name: String) -> void:
+	_available_upgrades.erase(upgrade_name)
+	_bought_upgrades.append(upgrade_name)
+	match upgrade_name:
+		"cage": 
+			_cage.show()
+			_bought_upgrades_for.append("hen")
+			_bought_upgrades_for.append("duck")
+		"crate": 
+			_crate.show()
+			_bought_upgrades_for.append("box")
+		"haybasket": 
+			_haybasket.show()
+			_bought_upgrades_for.append("cow")
+			_bought_upgrades_for.append("goat")
+		"ropes": 
+			_ropes.show()
+			_bought_upgrades_for.append("barrel")
+		"tarp": 
+			_tarp.show()
+			_bought_upgrades_for.append("hay")
 
 func _on_go_button_pressed() -> void:
 	_go_button.disabled = true
@@ -336,6 +338,13 @@ func _init_encounter() -> void:
 	_encounter_button2.hide()
 	if _rng.randi_range(1, 2) == 1:
 		return
+	if _rng.randi_range(1, 2) == 1 and _balance > 3 and _available_upgrades.size() > 0:
+		_upgrade_to_buy = _available_upgrades[_rng.randi_range(0, _available_upgrades.size() - 1)]
+		_boat2.show()
+		_encounter_button2.show()
+		_encounter_label.text = "Ahoy Matey! We have a " + _upgrade_to_buy + " which we are willing to sell to you for only $4. Deal?"
+		_encounter_button_label.bbcode_text = "[center]Yes (-$4 +[img]res://assets/" + _upgrade_to_buy + ".png[/img])"
+		return
 	var items = _boat_items.get_items()
 	for item in items:
 		if _bought_upgrades_for.has(item.get_name()):
@@ -405,6 +414,9 @@ func _on_yes_pressed() -> void:
 		if _item_to_erase.get_name() == "wood":
 			_update_balance(2)
 		_boat_items.erase(_item_to_erase)
+	if not _upgrade_to_buy == "":
+		_update_balance(-4)
+		_buy_upgrade(_upgrade_to_buy)
 	_continue_the_ride()
 
 func _on_no_pressed() -> void:

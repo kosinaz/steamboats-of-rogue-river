@@ -9,16 +9,16 @@
 [ext_resource path="res://assets/protest.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/boat2.png" type="Texture" id=9]
-[ext_resource path="res://assets/cage.png" type="Texture" id=10]
-[ext_resource path="res://assets/ropes.png" type="Texture" id=11]
-[ext_resource path="res://assets/crate.png" type="Texture" id=12]
+[ext_resource path="res://assets/cratebig.png" type="Texture" id=10]
+[ext_resource path="res://assets/cagebig.png" type="Texture" id=11]
+[ext_resource path="res://assets/ropesbig.png" type="Texture" id=12]
 [ext_resource path="res://assets/miniboat.png" type="Texture" id=13]
 [ext_resource path="res://assets/minidock.png" type="Texture" id=14]
 [ext_resource path="res://scenes/world.gd" type="Script" id=15]
 [ext_resource path="res://assets/button_pressed.png" type="Texture" id=16]
 [ext_resource path="res://assets/button.png" type="Texture" id=17]
 [ext_resource path="res://resources/panel.tres" type="StyleBox" id=18]
-[ext_resource path="res://assets/tarp.png" type="Texture" id=19]
+[ext_resource path="res://assets/tarpbig.png" type="Texture" id=19]
 [ext_resource path="res://assets/haybasket.png" type="Texture" id=20]
 
 [sub_resource type="Curve2D" id=11]
@@ -170,13 +170,13 @@ columns = 2
 unique_name_in_owner = true
 visible = false
 position = Vector2( -144.06, -0.0088501 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Crate" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
 visible = false
 position = Vector2( -144.06, 116.992 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 
 [node name="Haybasket" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
@@ -188,7 +188,7 @@ texture = ExtResource( 20 )
 unique_name_in_owner = true
 visible = false
 position = Vector2( -65.06, 98.9916 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Tarp" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
 unique_name_in_owner = true
@@ -440,9 +440,9 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="MarginContainer3" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 108.0
+margin_top = 66.0
 margin_right = 448.0
-margin_bottom = 147.0
+margin_bottom = 189.0
 custom_constants/margin_right = 20
 custom_constants/margin_left = 20
 
@@ -460,9 +460,9 @@ valign = 1
 autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 151.0
+margin_top = 193.0
 margin_right = 448.0
-margin_bottom = 246.0
+margin_bottom = 288.0
 custom_constants/margin_right = 100
 custom_constants/margin_top = 50
 custom_constants/margin_left = 100
@@ -487,9 +487,9 @@ bbcode_text = "[center]Let's go"
 text = "Let's go"
 
 [node name="MarginContainer2" type="MarginContainer" parent="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer"]
-margin_top = 250.0
+margin_top = 292.0
 margin_right = 448.0
-margin_bottom = 295.0
+margin_bottom = 337.0
 custom_constants/margin_right = 150
 custom_constants/margin_left = 150
 
