@@ -4,35 +4,18 @@
 
 Features:
 
-1. Procedural Generation:
-    * Each playthrough offers a unique experience with a procedurally generated river filled with random encounters and picturesque docks offering valuable trading goods.
+1. Each playthrough offers a unique experience with a procedurally generated river filled with random encounters and picturesque docks offering valuable trading goods.
+1. Manage your steamboat, upgrade your equipment and repair your frequently damaged hull.
+1. Collect wood for fuel and repairs, and money for hiring captains and buying more wood.
+1. Encounter other boats, each with their own requests and trades.
+1. Make crucial decisions that impact your boat, resources, and the overall journey.
+1. Encounter random events such as crushing waves, sudden storms, heavy rainfall, floating debris, or some rare times even the inexplicable horrors of the sailors' legends.
+1. Reach your destination before your resources run out, and adapt your strategy to the changing conditions.
+1. Experience the charming aesthetics of classic cartoons with a hand-drawn art style.
 
-1. Ship Management:
-    * Manage your steamboat and her captain, upgrading and repairing components, and hiring more experienced captains as you progress.
-    * Encounter different vessels, each with its strengths, weaknesses, and unique abilities.
+In development:
 
-1. Resource Management:
-    * Collect and manage resources like wood for fuel and repairs, and of course money to hire better captains and buy more wood.
-    * Make strategic decisions about resource allocation to ensure the survival of your ship.
-
-1. Decision Making:
-    * Encounter quirky characters inspired by classic cartoons, each with their own requests, trades, or challenges.
-    * Make crucial decisions that impact your ship, resources, and the overall storyline.
-
-1. Random Events:
-    * Encounter random events such as treacherous reefs, sudden storms, floating ice, or some rare times even the inexplicable horrors of the sailors' legends.
-    * Your decisions during these events affect your ship, resources, and the overall progression of the game.
-
-1. Time Pressure:
-    * The game is time-sensitive due to the limited resources.
-    * Reach your destination before your resources run out, and adapt your strategy to the changing conditions.
-
-1. Unlockable Content:
-    * Discover hidden docks, goods, characters, and upgrades as you progress through multiple playthroughs.
-    * Unlock new ships with unique abilities.
-
-1. Visual and Audio Design:
-    * Capture the charming aesthetics of classic cartoons with a hand-drawn art style.
-    * Incorporate a nostalgic soundtrack that complements the game's atmosphere.
+1. Unlock new contents through multiple playthroughs: new boats with unique abilites, hidden docks offering special items and upgrades, and brand new encounters with long lasting impacts.
+1. A nostalgic soundtrack that complements the game's atmosphere.
 
 "Steamboats of Rogue River" combines the charm of classic animation with the challenging and unpredictable nature of roguelike gameplay, creating an engaging and replayable experience for players of all ages. Will you steer your boat to safety, or succumb to the unpredictable perils of the Rogue River? The choice is yours in this maritime adventure!
