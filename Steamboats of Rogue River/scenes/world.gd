@@ -125,16 +125,11 @@ func _game_over(text: String) -> void:
 func _auto_remove_items() -> void:
 	if _boat_caps.get_item(0).get_destination() == _dock_id:
 		_boat_caps.remove(0)
-	var burned: bool = false
 	var items: Array = _boat_items.get_items()
 	var i: int = items.size()
 	while i > 0:
 		i -= 1
-		if items[i].get_name() == "wood":
-			if burned == false:
-				_boat_items.remove(i)
-				burned = true
-		elif items[i].get_destination() == _dock_id:
+		if items[i].get_name() != "wood" and items[i].get_destination() == _dock_id:
 			_update_balance(items[i].get_price())
 			_boat_items.remove(i)
 
@@ -264,6 +259,10 @@ func _on_go_button_pressed() -> void:
 	_update_container(_boat_cap_container)
 	_update_container(_boat_item_container)
 	_init_encounter()
+	for item in _boat_items.get_items():
+		if item.get_name() == "wood":
+			_boat_items.erase(item)
+			break
 	
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
