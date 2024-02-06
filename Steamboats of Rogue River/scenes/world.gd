@@ -29,6 +29,7 @@ var _full_repair: bool = false
 var _full_damage: bool = false
 var _records: ConfigFile = ConfigFile.new()
 var _chimney_stopping: bool = false
+var _wheel_stopping: bool = false
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -303,6 +304,7 @@ func _on_go_button_pressed() -> void:
 	_init_encounter()
 	_chimney1.play()
 	_chimney_stopping = false
+	_wheel_stopping = false
 	
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
@@ -322,6 +324,7 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_mile_tween.tween_property(_river_miles, "position:x", -28, 8)
 	
+	_boat_wheel.play("start")
 	_wheel_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
@@ -332,11 +335,14 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_chimney")
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
+	_wheel_tween.tween_interval(1)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_callback(self, "_stop_wheel")
 
 func _continue_the_ride() -> void:
 	_chimney1.play()
 	_chimney_stopping = false
+	_wheel_stopping = false
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_boat_tween.set_ease(Tween.EASE_IN)
@@ -361,7 +367,10 @@ func _continue_the_ride() -> void:
 # warning-ignore:return_value_discarded
 	_mile_tween.tween_property(_river_miles, "position:x", 0, 0)
 	
+	_boat_wheel.play("start")
 	_wheel_tween = get_tree().create_tween()
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
 # warning-ignore:return_value_discarded
@@ -369,7 +378,9 @@ func _continue_the_ride() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_chimney")
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
+	_wheel_tween.tween_interval(1)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_callback(self, "_stop_wheel")
 
 func _is_ready_to_go() -> bool:
 	return _boat_caps.has_any_item() and _boat_items.has_type_of_item("wood") and not _moving
@@ -460,6 +471,9 @@ func _show_encounter() -> void:
 	
 func _stop_chimney() -> void:
 	_chimney_stopping = true
+	
+func _stop_wheel() -> void:
+	_wheel_stopping = true
 
 func _on_restart_pressed() -> void:
 # warning-ignore:return_value_discarded
@@ -530,3 +544,9 @@ func _on_chimney2_animation_finished():
 	smoke_player.play("default")
 	if _chimney_stopping:
 		_chimney2.stop()
+
+func _on_boat_wheel_animation_finished():
+	if _boat_wheel.animation == "start":
+		_boat_wheel.play("move")
+	if _wheel_stopping:
+		_boat_wheel.play("stop")
