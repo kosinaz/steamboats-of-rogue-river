@@ -56,6 +56,7 @@ onready var _go_button: TextureButton = $"%GoButton"
 onready var _encounter_button1: Button = $"%EncounterButton1"
 onready var _encounter_button_label: RichTextLabel = $"%EncounterButtonLabel"
 onready var _encounter_button2: Button = $"%EncounterButton2"
+onready var _music_player: AudioStreamPlayer2D = $"%MusicPlayer"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -492,3 +493,7 @@ func _on_damage_pressed(id):
 			_boat_items.erase(item)
 			_init_repairs()
 			return
+
+
+func _on_sound_button_toggled(button_pressed):
+	_music_player.playing = not button_pressed

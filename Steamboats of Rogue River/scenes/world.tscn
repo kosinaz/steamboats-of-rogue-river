@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -26,6 +26,9 @@
 [ext_resource path="res://assets/damage3button.png" type="Texture" id=24]
 [ext_resource path="res://assets/damage2button.png" type="Texture" id=25]
 [ext_resource path="res://assets/damage1button.png" type="Texture" id=26]
+[ext_resource path="res://assets/bill.mp3" type="AudioStream" id=27]
+[ext_resource path="res://assets/soundon.png" type="Texture" id=28]
+[ext_resource path="res://assets/soundoff.png" type="Texture" id=29]
 
 [sub_resource type="Curve2D" id=11]
 _data = {
@@ -616,6 +619,21 @@ margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "No"
 
+[node name="MusicButton" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat"]
+margin_left = -275.935
+margin_top = -608.04
+margin_right = -211.935
+margin_bottom = -544.04
+toggle_mode = true
+texture_normal = ExtResource( 28 )
+texture_pressed = ExtResource( 29 )
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+position = Vector2( 288, 384 )
+stream = ExtResource( 27 )
+autoplay = true
+
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage1" to="." method="_on_damage_pressed" binds= [ 0 ]]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage2" to="." method="_on_damage_pressed" binds= [ 1 ]]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage3" to="." method="_on_damage_pressed" binds= [ 2 ]]
@@ -624,3 +642,4 @@ text = "No"
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/GameOverPanel/MarginContainer3/VBoxContainer/MarginContainer2/Button" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer/EncounterButton1" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/EncounterPanel/MarginContainer/MarginContainer2/EncounterButton2" to="." method="_on_no_pressed"]
+[connection signal="toggled" from="BoatPath/BoatPathFollow/Boat/MusicButton" to="." method="_on_sound_button_toggled"]
