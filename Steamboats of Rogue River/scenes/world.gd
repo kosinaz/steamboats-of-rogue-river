@@ -28,6 +28,7 @@ var _current_damage: TextureButton = null
 var _full_repair: bool = false
 var _full_damage: bool = false
 var _records: ConfigFile = ConfigFile.new()
+var _chimney_stopping: bool = false
 onready var _dock: Sprite = $"%Dock"
 onready var _dock_cap_container: GridContainer = $"%DockCapContainer"
 onready var _dock_item_container: GridContainer = $"%DockItemContainer"
@@ -57,6 +58,8 @@ onready var _encounter_button1: Button = $"%EncounterButton1"
 onready var _encounter_button_label: RichTextLabel = $"%EncounterButtonLabel"
 onready var _encounter_button2: Button = $"%EncounterButton2"
 onready var _music_player: AudioStreamPlayer2D = $"%MusicPlayer"
+onready var _chimney1: AnimatedSprite = $"%Chimney1"
+onready var _chimney2: AnimatedSprite = $"%Chimney2"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -298,6 +301,8 @@ func _on_go_button_pressed() -> void:
 			_boat_items.erase(item)
 			break
 	_init_encounter()
+	_chimney1.play()
+	_chimney_stopping = false
 	
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
@@ -325,9 +330,13 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_interval(5.5)
 # warning-ignore:return_value_discarded
+	_wheel_tween.tween_callback(self, "_stop_chimney")
+# warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
 func _continue_the_ride() -> void:
+	_chimney1.play()
+	_chimney_stopping = false
 	_boat_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_boat_tween.set_ease(Tween.EASE_IN)
@@ -357,6 +366,8 @@ func _continue_the_ride() -> void:
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 3, 1)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_interval(8.5)
+# warning-ignore:return_value_discarded
+	_wheel_tween.tween_callback(self, "_stop_chimney")
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 2)
 
@@ -446,6 +457,9 @@ func _show_encounter() -> void:
 		_game_over("Oh no, the water is too a shallow, we are stranded!")
 		return
 	_encounter_panel.show()
+	
+func _stop_chimney() -> void:
+	_chimney_stopping = true
 
 func _on_restart_pressed() -> void:
 # warning-ignore:return_value_discarded
@@ -494,6 +508,25 @@ func _on_damage_pressed(id):
 			_init_repairs()
 			return
 
-
 func _on_sound_button_toggled(button_pressed):
 	_music_player.playing = not button_pressed
+
+func _on_chimney1_frame_changed():
+	if _chimney1.frame == 3 and not _chimney2.playing:
+		_chimney2.play()
+
+func _on_chimney1_animation_finished():
+	var smoke = _chimney1.get_node("Smoke")
+	var smoke_player = smoke.get_node("AnimationPlayer")
+	smoke.show()
+	smoke_player.play("default")
+	if _chimney_stopping:
+		_chimney1.stop()
+
+func _on_chimney2_animation_finished():
+	var smoke = _chimney2.get_node("Smoke")
+	var smoke_player = smoke.get_node("AnimationPlayer")
+	smoke.show()
+	smoke_player.play("default")
+	if _chimney_stopping:
+		_chimney2.stop()
