@@ -335,7 +335,7 @@ func _on_go_button_pressed() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_chimney")
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(1)
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 1.5, 0.5)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_wheel")
 
@@ -378,7 +378,7 @@ func _continue_the_ride() -> void:
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_chimney")
 # warning-ignore:return_value_discarded
-	_wheel_tween.tween_interval(1)
+	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 1.5, 0.5)
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_callback(self, "_stop_wheel")
 

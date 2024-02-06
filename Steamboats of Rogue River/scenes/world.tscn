@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://assets/dock.png" type="Texture" id=1]
 [ext_resource path="res://assets/boat.png" type="Texture" id=2]
@@ -37,10 +37,10 @@ _data = {
 "points": PoolVector2Array( 0.104004, -1.8535, -0.104004, 1.8535, -5780.44, 869.212, -1114.56, 0.180637, 1114.56, -0.180637, -3551.82, 869.212, -1113.85, -0.0137686, 1113.85, 0.0137686, -1323.2, 617.857, -1114.36, -0.00301915, 1114.36, 0.00301915, 905.427, 869.212, 0, 0, 0, 0, 3134.05, 869.212 )
 }
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 512, 832, 256, 208 )
+region = Rect2( 512, 1040, 256, 208 )
 
 [sub_resource type="AtlasTexture" id=20]
 flags = 4
@@ -102,24 +102,39 @@ flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 512, 416, 256, 208 )
 
-[sub_resource type="AtlasTexture" id=32]
+[sub_resource type="AtlasTexture" id=33]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 832, 256, 208 )
 
-[sub_resource type="AtlasTexture" id=33]
+[sub_resource type="AtlasTexture" id=34]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 256, 832, 256, 208 )
 
-[sub_resource type="AtlasTexture" id=34]
+[sub_resource type="AtlasTexture" id=35]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 512, 832, 256, 208 )
 
+[sub_resource type="AtlasTexture" id=36]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 1040, 256, 208 )
+
+[sub_resource type="AtlasTexture" id=37]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 256, 1040, 256, 208 )
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 512, 1040, 256, 208 )
+
 [sub_resource type="SpriteFrames" id=9]
 animations = [ {
-"frames": [ SubResource( 19 ) ],
+"frames": [ SubResource( 32 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
@@ -134,7 +149,7 @@ animations = [ {
 "name": "start",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
 "loop": false,
 "name": "stop",
 "speed": 5.0
