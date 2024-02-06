@@ -61,6 +61,7 @@ onready var _encounter_button2: Button = $"%EncounterButton2"
 onready var _music_player: AudioStreamPlayer2D = $"%MusicPlayer"
 onready var _chimney1: AnimatedSprite = $"%Chimney1"
 onready var _chimney2: AnimatedSprite = $"%Chimney2"
+onready var _waves: AnimatedSprite = $"%Waves"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -325,6 +326,7 @@ func _on_go_button_pressed() -> void:
 	_mile_tween.tween_property(_river_miles, "position:x", -28, 8)
 	
 	_boat_wheel.play("start")
+	_waves.speed_scale = 2.5
 	_wheel_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
@@ -368,6 +370,7 @@ func _continue_the_ride() -> void:
 	_mile_tween.tween_property(_river_miles, "position:x", 0, 0)
 	
 	_boat_wheel.play("start")
+	_waves.speed_scale = 2.5
 	_wheel_tween = get_tree().create_tween()
 # warning-ignore:return_value_discarded
 	_wheel_tween.tween_property(_boat_wheel, "speed_scale", 0, 0)
@@ -474,6 +477,7 @@ func _stop_chimney() -> void:
 	
 func _stop_wheel() -> void:
 	_wheel_stopping = true
+	_waves.speed_scale = 1
 
 func _on_restart_pressed() -> void:
 # warning-ignore:return_value_discarded
