@@ -27,7 +27,7 @@ var _wood_deal: bool = false
 var _current_damage: TextureButton = null
 var _full_repair: bool = false
 var _full_damage: bool = false
-var _records: ConfigFile = ConfigFile.new()
+var _data: ConfigFile = ConfigFile.new()
 var _chimney_stopping: bool = false
 var _wheel_stopping: bool = false
 onready var _dock: Sprite = $"%Dock"
@@ -59,12 +59,17 @@ onready var _encounter_button1: Button = $"%EncounterButton1"
 onready var _encounter_button_label: RichTextLabel = $"%EncounterButtonLabel"
 onready var _encounter_button2: Button = $"%EncounterButton2"
 onready var _music_player: AudioStreamPlayer2D = $"%MusicPlayer"
+onready var _music_button: TextureButton = $"%MusicButton"
 onready var _chimney1: AnimatedSprite = $"%Chimney1"
 onready var _chimney2: AnimatedSprite = $"%Chimney2"
 onready var _waves: AnimatedSprite = $"%Waves"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var result = _data.load("user://data.cfg")
+	if result == OK:
+		_music_player.playing = _data.get_value("music", "playing", true)
+		_music_button.pressed = not _music_player.playing
 	randomize()
 	_rng.randomize()
 	_init_container(_dock_caps, _dock_cap_container)
@@ -168,15 +173,16 @@ func _game_over(text: String) -> void:
 	_reason_label.text = text
 	_current_mile_label.text = str(_dock_id) + " miles"
 	var record = _dock_id
-	var result = _records.load("user://records.cfg")
+	var result = _data.load("user://data.cfg")
 	if result == OK:
-		record = _records.get_value("mile", "record", 0)
+		record = _data.get_value("mile", "record", 0)
 		if int(record) < _dock_id:
-			_records.set_value("mile", "record", _dock_id)
+			_data.set_value("mile", "record", _dock_id)
 			record = _dock_id
 	else:
-		_records.set_value("mile", "record", _dock_id)
-	_records.save("user://records.cfg")
+		_data.set_value("mile", "record", _dock_id)
+# warning-ignore:return_value_discarded
+	_data.save("user://data.cfg")
 	_record_mile_label.text =  str(record) + " miles"
 	
 func _auto_remove_items() -> void:
@@ -548,6 +554,9 @@ func _on_damage_pressed(id):
 
 func _on_sound_button_toggled(button_pressed):
 	_music_player.playing = not button_pressed
+	_data.set_value("music", "playing", not button_pressed)
+# warning-ignore:return_value_discarded
+	_data.save("user://data.cfg")
 
 func _on_chimney1_frame_changed():
 	if _chimney1.frame == 3 and not _chimney2.playing:

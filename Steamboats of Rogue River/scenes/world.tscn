@@ -805,6 +805,7 @@ custom_fonts/font = ExtResource( 8 )
 text = "No"
 
 [node name="MusicButton" type="TextureButton" parent="BoatPath/BoatPathFollow/Boat"]
+unique_name_in_owner = true
 margin_left = -275.935
 margin_top = -608.04
 margin_right = -211.935
