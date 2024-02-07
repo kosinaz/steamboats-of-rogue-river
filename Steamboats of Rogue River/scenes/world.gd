@@ -138,16 +138,29 @@ func _init_repairs() -> void:
 			return
 
 func _check_game_over() -> void:
-	if not _boat_caps.is_full() and _balance + _dock_caps.get_item(0).get_price() < 0:
-		_game_over("Can't afford captain!")
-		return
+	var has_wood = false
 	for item in _boat_items.get_items():
 		if item.get_name() == "wood":
-			return
+			has_wood = true
+	var wood_available = false
 	for item in _dock_items.get_items():
-		if item.get_name() == "wood" and _balance > 0:
-			return
-	_game_over("Ran out of wood!")
+		if item.get_name() == "wood":
+			wood_available = true
+	var net_balance = _balance
+	if not _boat_caps.is_full():
+		net_balance += max(_dock_caps.get_item(0).get_price(), _dock_caps.get_item(1).get_price())
+	if not has_wood and not wood_available:
+		_game_over("Ran out of wood!")
+		return
+	if not has_wood and wood_available and _balance < 1:
+		_game_over("Can't afford wood!")
+		return
+	if not has_wood and wood_available and net_balance < 1:
+		_game_over("Can't afford captain and wood!")
+		return
+	if has_wood and net_balance < 0:
+		_game_over("Can't afford captain!")
+		return
 
 func _game_over(text: String) -> void:
 	_game_over_panel.show()
