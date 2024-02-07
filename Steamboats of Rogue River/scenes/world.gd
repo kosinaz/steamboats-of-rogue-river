@@ -74,6 +74,7 @@ func _ready() -> void:
 	_init_dock()
 	_boat_items.add_new_item("wood", 0, 0, -1)
 	_boat_items.add_new_item("wood", 0, 0, -1)
+	
 
 func _init_dock() -> void:
 	_dock_id += 1
@@ -166,10 +167,16 @@ func _game_over(text: String) -> void:
 	_game_over_panel.show()
 	_reason_label.text = text
 	_current_mile_label.text = str(_dock_id) + " miles"
-	var record = _records.get_value("mile", "record", 0)
-	if int(record) < _dock_id:
+	var record = _dock_id
+	var result = _records.load("user://records.cfg")
+	if result == OK:
+		record = _records.get_value("mile", "record", 0)
+		if int(record) < _dock_id:
+			_records.set_value("mile", "record", _dock_id)
+			record = _dock_id
+	else:
 		_records.set_value("mile", "record", _dock_id)
-		record = _records.get_value("mile", "record")
+	_records.save("user://records.cfg")
 	_record_mile_label.text =  str(record) + " miles"
 	
 func _auto_remove_items() -> void:

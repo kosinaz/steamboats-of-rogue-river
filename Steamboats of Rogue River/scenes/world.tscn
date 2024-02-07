@@ -317,7 +317,6 @@ scale = Vector2( 1.93457, 0.981851 )
 unique_name_in_owner = true
 position = Vector2( -30.9361, 189.964 )
 frames = SubResource( 42 )
-frame = 2
 playing = true
 
 [node name="Sprite" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
