@@ -317,6 +317,7 @@ scale = Vector2( 1.93457, 0.981851 )
 unique_name_in_owner = true
 position = Vector2( -30.9361, 189.964 )
 frames = SubResource( 42 )
+frame = 2
 playing = true
 
 [node name="Sprite" type="Sprite" parent="BoatPath/BoatPathFollow/Boat"]
@@ -818,6 +819,7 @@ unique_name_in_owner = true
 position = Vector2( 288, 384 )
 stream = ExtResource( 27 )
 autoplay = true
+max_distance = 2500.0
 
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage1" to="." method="_on_damage_pressed" binds= [ 0 ]]
 [connection signal="pressed" from="BoatPath/BoatPathFollow/Boat/Damage2" to="." method="_on_damage_pressed" binds= [ 1 ]]
