@@ -58,49 +58,49 @@ Similarly, the boondocks (-> Boondocks Harbor) or the boonies are used in Americ
 In New Zealand English, Woop Woops.. (-> Woop Woops Wharf)
 
 https://www.rhymezone.com/r/rhyme.cgi?Word=podunk&org1=syl&org2=l&org3=y&typeofrhyme=syn
-Squeedunk Piers
-Duckburg Wharf
-Nowheresville Harbor
-Palookaville Port
-Sticksville Harbor
-Schmucksville Harbor
+- Squeedunk Piers
+- Duckburg Wharf
+- Nowheresville Harbor
+- Palookaville Port
+- Sticksville Harbor
+- Schmucksville Harbor
 
 https://www.fantasynamegenerators.com/harbor-names.php
-Picmond Piers
-Witterel Wharf
-Shelville Harbor
-Redwood Landing
-Marblerock Landing
-Dorburns Wharf
-Ashmore Wharf
-Hampfail Harbor
-New Haven Port
-Prisoner Point Port
-Drumlow Landing
-Kerromouse Piers
-Brownheller Harbor
-Rocksack Wharf
-Salmon Falls Piers
-New Moon Wharf
-Hunter Harbor
-Hopewell Harbor
-Haverwood Harbor
-Arlingdeen Landing
-Everforte Harbor
-Oaksor Piers
-Manbridge Landing
-Barkmack Wharf
-Lobster Landing
-Beaconham Harbor
+- Picmond Piers
+- Witterel Wharf
+- Shelville Harbor
+- Redwood Landing
+- Marblerock Landing
+- Dorburns Wharf
+- Ashmore Wharf
+- Hampfail Harbor
+- New Haven Port
+- Prisoner Point Port
+- Drumlow Landing
+- Kerromouse Piers
+- Brownheller Harbor
+- Rocksack Wharf
+- Salmon Falls Piers
+- New Moon Wharf
+- Hunter Harbor
+- Hopewell Harbor
+- Haverwood Harbor
+- Arlingdeen Landing
+- Everforte Harbor
+- Oaksor Piers
+- Manbridge Landing
+- Barkmack Wharf
+- Lobster Landing
+- Beaconham Harbor
 
 https://www.merriam-webster.com/thesaurus/Podunks
-Cow Town Port
-Whistle Stop Wharf
+- Cow Town Port
+- Whistle Stop Wharf
 
 https://www.wordhippo.com/what-is/another-word-for/podunk.html
-Backwater Harbor
+- Backwater Harbor
 
 https://www.powerthesaurus.org/podunk
-Hickville Harbor
-One Horse Harbor
+- Hickville Harbor
+- One Horse Harbor
 
