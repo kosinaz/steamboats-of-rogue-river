@@ -20,6 +20,8 @@ Fun facts:
 
 - A játékban megjelenő minden szállítmány a rajzfilmből származik, Mikin kívül viszont felbérelhető még két kormányos, akik saját alkotások. A tehén és a kecske elvesztését okozó véletlen események szintén feltűnnek a rajzfilmben.
 
+- + 1 Egy teljes napot szántam arra, hogy a játékhoz összegyűjtsek 40 kikötő nevet (ebből 12 easter egg), és 5 hajó nevet (mind történelmi nevek paródiái) és végül egy sem került a játékba.
+
 https://education.nationalgeographic.org/resource/steamboat/
 Packet boats carried human passengers as well as commercial cargo, such as bales of cotton from southern plantations. 
 ...steamboats greatly reduced both the time and expense of shipping goods to distant markets.
