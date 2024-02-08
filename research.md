@@ -1,5 +1,7 @@
 Fun facts:
 
+- A gőzhajók előtt a Mississipin rabszolgák vontatták a bárkákat.
+
 - Az első gőzhajó 1807-ben hagyta el New York kikötőjét, és 1820-ra már olyan sok járta Amerika folyóit, hogy egyes kikötőkben rendszerint 3-4 napot kellett vesztegetlniük, mire kiköthettek. - Ez nem szerepel a játékban.
 
 - Egy ilyen gőzhajó általában 30-50 tonna tehernek, vagy több mint 200 utasnak tudott helyet biztosítani. Végsebességük 5 mérföld / óra volt. - Az egyszerűség kedvéért itt összesen 6 hely van.
