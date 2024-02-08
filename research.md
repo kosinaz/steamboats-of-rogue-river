@@ -1,3 +1,23 @@
+Fun facts:
+
+- Az első gőzhajó 1807-ben hagyta el New York kikötőjét, és 1820-ra már olyan sok járta Amerika folyóit, hogy egyes kikötőkben rendszerint 3-4 napot kellett vesztegetlniük, mire kiköthettek. - Ez nem szerepel a játékban.
+
+- Egy ilyen gőzhajó általában 30-50 tonna tehernek, vagy több mint 200 utasnak tudott helyet biztosítani. Végsebességük 5 mérföld / óra volt. - Az egyszerűség kedvéért itt összesen 6 hely van.
+
+- Átlagos élettartama viszont ritkán haladta meg az 5 évet. A legtöbb hajó spontán kazánrobbanásban semmisült meg, és majdnem ugyanannyi hajó süllyedt el azért, mert fennakadtak korábbi hajók roncsain. - A kazánrobbanás túl igazságtalannak tűnt, a roncsok viszont mérföldről mérföldre egyre nagyobb eséllyel okoznak gondot, és a 30. mérföldtől kezdve szinte elkerülhetetlenné válnak.
+
+- A kormányosok olyan ritkák voltak, hogy csak akkor dolgoztak, amikor éppen kedvük szottyant hozzá. Ilyenkor egyszerűen lesétáltak a főutcán, és a hagyták hogy megrohamozzák őket a hajóskapitányok vagy vállalatok, egymást túllicitálva, hogy az ő hajójukat vigye el egy útra. $1000-nál kevesebbről szóló ajánlatokat meg sem hallgattak. Ez mai árfolyamon 8 millió Ft-nak felel meg. - A játékban ezért kell folyamatosan cserélgetni a kormányosokat.
+
+- Gyakori problémát jelentettek a vízi útonállók avagy földi kalózok is, akik előszeretettel fosztogatták a hajókat. Egy kicsivel kisebb gondot okoztak a partmenti szerencsejátékosok, akik az utasok pénzét csalták el. - A játékban csak egy sas ragadja el az egyik tyúkot. A szállítmányok inkább más okokból tűnnek el a hajóút alatt.
+
+- Podunk, indián szó, jelentése kicsi, jelentéktelen, avagy Pusztafütykös / Simagöröngyös / stb. Legközelebb 1936-an találkozhatunk vele, A városi egér és a vidéki egér című Disney mesében, amely Aiszóposz i.e. 600 körüli azonos című meséjét dolgozta fel. A vidéki egér lakik Podunkban.
+  
+- Steamboat Bill, 1910-es dal, arról szól, hogy a kapitány hajójával, a Whippoorwillel meg akarja előzni a Mississipi leggyorsabb gőzösért a Robert E Lee-t, megfenyegeti a legénységet, és még a szállítmányt is eltüzeli, de túlmelegedik a kazánja és felrobban. Viszont még a levegőben egy újabb fogadást köt a szerencsejátékos társával, hogy ki repül magasabbra. - A dal egyszerűsített változatát én magam játszottam el zongorán, ami a játékban is hallható.
+
+- Disneynek nem volt pénze jogdíjakra, így kifejezetten public domain dalokat kerestek a rajzfilm számára. Nem tűnt fel viszont nekik, hogy a Steamboat Bill ekkor azonban még nem volt public domain, szerencséjükre másnak sem. A Turkey in the Straw viszont pont ebben az évben került public domainba, ezért képezte központi elemét a rajzfilmnek.
+
+- A játékban megjelenő minden szállítmány a rajzfilmből származik, Mikin kívül viszont felbérelhető még két kormányos, akik saját alkotások. A tehén és a kecske elvesztését okozó véletlen események szintén feltűnnek a rajzfilmben.
+
 https://education.nationalgeographic.org/resource/steamboat/
 Packet boats carried human passengers as well as commercial cargo, such as bales of cotton from southern plantations. 
 ...steamboats greatly reduced both the time and expense of shipping goods to distant markets.
@@ -19,6 +39,14 @@ Steam-powered boats traveled at the astonishing speed of up to 5 miles per hour.
 
 https://en.wikipedia.org/wiki/Rogue_River_(Oregon)
 215 miles (346 km) (-> 43 hour)
+
+https://www.mouseplanet.com/10157/Secrets_of_Steamboat_Willie
+
+https://en.wikipedia.org/wiki/Steamboat_Bill
+
+https://en.wikipedia.org/wiki/The_Country_Cousin
+
+https://en.wikipedia.org/wiki/The_Town_Mouse_and_the_Country_Mouse
 
 https://en.wikipedia.org/wiki/Placeholder_name
 Podunk (-> Podunk Landing) is used in American English for a hypothetical small town regarded as typically dull or insignificant, a place in the U.S. that is unlikely to have been heard of. Another example is East Cupcake (-> East Cupcake Piers) to refer to a generic small town in the Midwestern United States.[5]
